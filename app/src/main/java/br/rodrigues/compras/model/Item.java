@@ -8,7 +8,16 @@ public class Item implements Serializable {
     private String nome;
     private Double preco;
     private String categoria;
+    private String frequencia;
     private Boolean comprado;
+
+    public String getFrequencia() {
+        return frequencia;
+    }
+
+    public void setFrequencia(String frequencia) {
+        this.frequencia = frequencia;
+    }
 
     public Long getId() {
         return id;
@@ -48,5 +57,10 @@ public class Item implements Serializable {
 
     public void setComprado(Boolean comprado) {
         this.comprado = comprado;
+    }
+
+    @Override
+    public String toString() {
+        return getNome();
     }
 }

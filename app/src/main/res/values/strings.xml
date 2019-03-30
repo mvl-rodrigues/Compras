@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Compras</string>
+
+    <string-array name="categorias">
+        <item>Outros</item>
+        <item>Açougue</item>
+        <item>Hortifruti</item>
+        <item>Grãos</item>
+        <item>Massas</item>
+        <item>Bebidas</item>
+        <item>Higiene</item>
+    </string-array>
+
+    <string name="activity_formulario_nome">Nome</string>
+    <string name="activity_formulario_preco">Preço</string>
+    <string name="activity_formulario_frequencia_mensal">Item Mensal</string>
+    <string name="activity_formulario_frequencia_eventual">Item Eventual</string>
+
 </resources>
