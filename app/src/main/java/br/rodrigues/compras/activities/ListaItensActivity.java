@@ -19,14 +19,14 @@ public class ListaItensActivity extends AppCompatActivity {
     public static final String TITLE_APPBAR = "Lista";
     private ListView listaItens;
     private FloatingActionButton fab_add;
-    private ItemDAO dao = new ItemDAO();
+    private ItemDAO dao = new ItemDAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_itens);
         setTitle(TITLE_APPBAR);
-        pegaViews();
+        getViews();
         configuraListaDeItens();
         ConfiguraFabAdd();
     }
@@ -42,13 +42,13 @@ public class ListaItensActivity extends AppCompatActivity {
     }
 
     private void configuraListaDeItens() {
-        List<Item> Itens = dao.pegaItens();
+        List<Item> Itens = dao.getAllItems();
         ArrayAdapter<Item> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Itens);
         listaItens.setAdapter(adapter);
         registerForContextMenu(listaItens);
     }
 
-    private void pegaViews() {
+    private void getViews() {
         listaItens = findViewById(R.id.activity_lista_itens_listview);
         fab_add = findViewById(R.id.activity_lista_itens_fab_add);
     }

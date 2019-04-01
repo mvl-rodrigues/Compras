@@ -7,9 +7,18 @@ public class Item implements Serializable {
     private Long id;
     private String nome;
     private Double preco;
+    private String observacao;
     private String categoria;
     private String frequencia;
     private Boolean comprado;
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
 
     public String getFrequencia() {
         return frequencia;

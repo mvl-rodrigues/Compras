@@ -15,5 +15,11 @@
     <string name="activity_formulario_preco">Preço</string>
     <string name="activity_formulario_frequencia_mensal">Item Mensal</string>
     <string name="activity_formulario_frequencia_eventual">Item Eventual</string>
+    <string name="activity_formulario_obs">Observação</string>
+    <string name="activity_formulario_menu_salvar">Salvar</string>
+    <string name="activity_formulario_alert_empty_name">O campo nome é obrigatório.</string>
+
+    <string name="alert_default">Alerta!</string>
+
 
 </resources>
