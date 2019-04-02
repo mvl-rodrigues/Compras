@@ -2,7 +2,6 @@ package br.rodrigues.compras.activities;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,13 +17,34 @@ public class FormularioHelper {
     private EditText campoPreco;
     private Spinner campoCategoria;
     private RadioGroup campoFrequencia;
-    private Item itemOk;
     private EditText campoObs;
+    private Item itemOk;
 
     public FormularioHelper (FormularioActivity context) {
         activity = context;
         getActivityViews();
         itemOk = new Item();
+    }
+
+    public void fillItem (Item item){
+        campoNome.setText(item.getNome());
+        campoPreco.setText(String.valueOf(item.getPreco()));
+        campoCategoria.setSelection(getSpinnerPosition(item.getCategoria()));
+        campoObs.setText(item.getObservacao());
+        campoFrequencia.check(getIdRadioButton(item.getFrequencia()));
+        itemOk = item;
+    }
+
+    public Item getItem (){
+
+        if (checkRequiredFields()){
+            itemOk.setNome(campoNome.getText().toString());
+            itemOk.setCategoria(campoCategoria.getSelectedItem().toString());
+            itemOk.setObservacao(campoObs.getText().toString());
+            itemOk.setFrequencia(getStringRadioButton());
+        }
+
+        return itemOk;
     }
 
     private void getActivityViews() {
@@ -33,50 +53,6 @@ public class FormularioHelper {
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
         campoFrequencia = activity.findViewById(R.id.activity_formulario_frequencia);
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
-    }
-
-    public Item fillItem() {
-//        itemOk = theItem;
-
-//        if (theItem.getId() != null) {
-//            fillOldData(theItem);
-//        }
-
-        itemOk.setCategoria(campoCategoria.getSelectedItem().toString());
-        itemOk.setFrequencia(getStringRadioButton());
-        itemOk.setObservacao(campoObs.getText().toString());
-        checkRequiredFields();
-
-        return itemOk;
-    }
-
-    private void fillOldData(Item oldItem) {
-        campoNome.setText(oldItem.getNome());
-        campoPreco.setText(String.valueOf(oldItem.getPreco()));
-        campoCategoria.setSelection(getSpinnerPosition(oldItem.getCategoria()));
-        campoObs.setText(oldItem.getObservacao());
-        campoFrequencia.check(getIdRadioButton(oldItem.getFrequencia()));
-    }
-
-    private void checkRequiredFields() {
-        itemOk.setNome(campoNome.getText().toString());
-        if (itemOk.getNome().isEmpty()){
-            new AlertDialog.Builder(activity)
-                    .setTitle(R.string.alert_default)
-                    .setMessage(R.string.activity_formulario_alert_empty_name)
-                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            campoNome.requestFocus();
-                        }
-                    })
-                    .show();
-        }
-        if (!campoPreco.getText().toString().isEmpty()) {
-            itemOk.setPreco(Double.valueOf(campoPreco.getText().toString()));
-        } else {
-            itemOk.setPreco(0.0);
-        }
     }
 
     private int getSpinnerPosition (String spinnerString){
@@ -114,4 +90,26 @@ public class FormularioHelper {
         return 0;
     }
 
+    public boolean checkRequiredFields() {
+        
+        if (campoNome.getText().toString().isEmpty()){
+            new AlertDialog.Builder(activity)
+                    .setTitle(R.string.alert_default)
+                    .setMessage(R.string.activity_formulario_alert_empty_name)
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            campoNome.requestFocus();
+                        }
+                    })
+                    .show();
+            return false;
+        }
+        if (!campoPreco.getText().toString().isEmpty()) {
+            itemOk.setPreco(Double.valueOf(campoPreco.getText().toString()));
+        } else {
+            itemOk.setPreco(0.0);
+        }
+        return true;
+    }
 }

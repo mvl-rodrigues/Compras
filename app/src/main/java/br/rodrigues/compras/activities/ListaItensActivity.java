@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,6 +24,8 @@ public class ListaItensActivity extends AppCompatActivity {
     private ListView listaItens;
     private FloatingActionButton fab_add;
     private ItemDAO dao = new ItemDAO(this);
+    private List<Item> itens;
+    private ArrayAdapter<Item> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,53 @@ public class ListaItensActivity extends AppCompatActivity {
         getViews();
         configuraListaDeItens();
         ConfiguraFabAdd();
+        setupShortClickListener();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        MenuItem deletar = menu.add("Deletar");
+        deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+                Item itemToDelete = (Item) listaItens.getItemAtPosition(info.position);
+
+                ItemDAO dao = new ItemDAO(ListaItensActivity.this);
+
+                dao.delete(itemToDelete);
+
+                updatedListItems();
+
+                return false;
+            }
+        });
+
+        MenuItem atualizar = menu.add("Editar");
+        atualizar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Toast.makeText(ListaItensActivity.this, "Atualizado!", Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
+
+    }
+
+    private void setupShortClickListener() {
+        listaItens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
+                Item itemToUpdate = (Item) lista.getItemAtPosition(position);
+                Intent goToUpdate = new Intent(ListaItensActivity.this, FormularioActivity.class);
+                goToUpdate.putExtra("itemToUpdate", itemToUpdate);
+                startActivity(goToUpdate);
+            }
+        });
     }
 
     private void ConfiguraFabAdd() {
@@ -42,8 +95,8 @@ public class ListaItensActivity extends AppCompatActivity {
     }
 
     private void configuraListaDeItens() {
-        List<Item> Itens = dao.getAllItems();
-        ArrayAdapter<Item> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Itens);
+        itens = dao.getAllItems();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itens);
         listaItens.setAdapter(adapter);
         registerForContextMenu(listaItens);
     }
@@ -51,5 +104,17 @@ public class ListaItensActivity extends AppCompatActivity {
     private void getViews() {
         listaItens = findViewById(R.id.activity_lista_itens_listview);
         fab_add = findViewById(R.id.activity_lista_itens_fab_add);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updatedListItems();
+    }
+
+    private void updatedListItems() {
+        itens = dao.getAllItems();
+        adapter.clear();
+        adapter.addAll(itens);
     }
 }

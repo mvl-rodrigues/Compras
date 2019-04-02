@@ -13,6 +13,7 @@ import br.rodrigues.compras.repository.BancoSQLite;
 
 public class ItemDAO {
 
+    public static final String TABLE = "Itens";
     private BancoSQLite conexao;
     private SQLiteDatabase db;
 
@@ -47,29 +48,49 @@ public class ItemDAO {
         return itens;
     }
 
-    public void create(Item itemOk) {
-        db = conexao.getWritableDatabase();
-
-        ContentValues dados = getItemData(itemOk);
-
-        db.insert("Itens", null, dados);
-    }
-
-    private ContentValues getItemData(Item itemOk) {
+    private ContentValues getItemData(Item item) {
 
         ContentValues dados = new ContentValues();
 
-        dados.put("nome", itemOk.getNome());
-        dados.put("preco", itemOk.getPreco());
-        dados.put("categoria", itemOk.getCategoria());
-        dados.put("observacao", itemOk.getObservacao());
-        dados.put("frequencia", itemOk.getFrequencia());
-        dados.put("comprado", itemOk.getComprado());
+        dados.put("nome", item.getNome());
+        dados.put("preco", item.getPreco());
+        dados.put("categoria", item.getCategoria());
+        dados.put("observacao", item.getObservacao());
+        dados.put("frequencia", item.getFrequencia());
+        dados.put("comprado", item.getComprado());
 
         return dados;
     }
 
-    public void update(Item itemOk) {
+    public void create(Item item) {
+        db = conexao.getWritableDatabase();
 
+        ContentValues data = getItemData(item);
+
+        db.insert(TABLE, null, data);
+
+        db.close();
+    }
+
+    public void update(Item item) {
+
+        db = conexao.getWritableDatabase();
+
+        ContentValues data = getItemData(item);
+
+        String[] params = {item.getId().toString()};
+
+        db.update(TABLE, data, "id = ?", params);
+
+        db.close();
+    }
+
+    public void delete (Item item){
+
+        db = conexao.getWritableDatabase();
+
+        String[] params = {item.getId().toString()};
+
+        db.delete(TABLE, "id = ?", params);
     }
 }
