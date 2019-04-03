@@ -8,8 +8,8 @@ public class Item implements Serializable {
     private String nome;
     private Double preco;
     private String observacao;
-    private String categoria;
-    private String frequencia;
+    private int categoria;
+    private int frequencia;
     private Boolean comprado;
 
     public String getObservacao() {
@@ -20,11 +20,11 @@ public class Item implements Serializable {
         this.observacao = observacao;
     }
 
-    public String getFrequencia() {
+    public int getFrequencia() {
         return frequencia;
     }
 
-    public void setFrequencia(String frequencia) {
+    public void setFrequencia(int frequencia) {
         this.frequencia = frequencia;
     }
 
@@ -52,11 +52,11 @@ public class Item implements Serializable {
         this.preco = preco;
     }
 
-    public String getCategoria() {
+    public int getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(int categoria) {
         this.categoria = categoria;
     }
 

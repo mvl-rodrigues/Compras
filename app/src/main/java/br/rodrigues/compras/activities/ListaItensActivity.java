@@ -33,8 +33,8 @@ public class ListaItensActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_itens);
         setTitle(TITLE_APPBAR);
         getViews();
-        configuraListaDeItens();
-        ConfiguraFabAdd();
+        setupListaDeItens();
+        setupFabAdd();
         setupShortClickListener();
     }
 
@@ -84,7 +84,7 @@ public class ListaItensActivity extends AppCompatActivity {
         });
     }
 
-    private void ConfiguraFabAdd() {
+    private void setupFabAdd() {
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +94,7 @@ public class ListaItensActivity extends AppCompatActivity {
         });
     }
 
-    private void configuraListaDeItens() {
+    private void setupListaDeItens() {
         itens = dao.getAllItems();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itens);
         listaItens.setAdapter(adapter);

@@ -36,9 +36,9 @@ public class ItemDAO {
             item.setId(ponteiro.getLong(ponteiro.getColumnIndex("id")));
             item.setNome(ponteiro.getString(ponteiro.getColumnIndex("nome")));
             item.setPreco(ponteiro.getDouble(ponteiro.getColumnIndex("preco")));
-            item.setCategoria(ponteiro.getString(ponteiro.getColumnIndex("categoria")));
+            item.setCategoria(ponteiro.getInt(ponteiro.getColumnIndex("categoria")));
             item.setObservacao(ponteiro.getString(ponteiro.getColumnIndex("observacao")));
-            item.setFrequencia(ponteiro.getString(ponteiro.getColumnIndex("frequencia")));
+            item.setFrequencia(ponteiro.getInt(ponteiro.getColumnIndex("frequencia")));
             item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
 
             itens.add(item);

@@ -3,7 +3,6 @@ package br.rodrigues.compras.activities;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
@@ -29,9 +28,9 @@ public class FormularioHelper {
     public void fillItem (Item item){
         campoNome.setText(item.getNome());
         campoPreco.setText(String.valueOf(item.getPreco()));
-        campoCategoria.setSelection(getSpinnerPosition(item.getCategoria()));
         campoObs.setText(item.getObservacao());
-        campoFrequencia.check(getIdRadioButton(item.getFrequencia()));
+        campoCategoria.setSelection(item.getCategoria());
+        campoFrequencia.check(item.getFrequencia());
         itemOk = item;
     }
 
@@ -39,9 +38,9 @@ public class FormularioHelper {
 
         if (checkRequiredFields()){
             itemOk.setNome(campoNome.getText().toString());
-            itemOk.setCategoria(campoCategoria.getSelectedItem().toString());
             itemOk.setObservacao(campoObs.getText().toString());
-            itemOk.setFrequencia(getStringRadioButton());
+            itemOk.setCategoria(campoCategoria.getSelectedItemPosition());
+            itemOk.setFrequencia(campoFrequencia.getCheckedRadioButtonId());
         }
 
         return itemOk;
@@ -53,41 +52,6 @@ public class FormularioHelper {
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
         campoFrequencia = activity.findViewById(R.id.activity_formulario_frequencia);
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
-    }
-
-    private int getSpinnerPosition (String spinnerString){
-        //.getCount(): pega a quantidade de itens que o Spinner possui
-        //percorre por todos os itens do spinner
-        for (int i = 0; i < campoCategoria.getCount(); i++){
-            //verifica se
-            if (campoCategoria.getItemAtPosition(i).toString().equalsIgnoreCase(spinnerString)){
-                return i;
-            }
-        }
-        return 0;
-    }
-
-    private String getStringRadioButton (){
-        //identificando o id do radioButton pelo radioGroup
-        int selectedId = campoFrequencia.getCheckedRadioButtonId();
-        //linkando o radioButton selecionado a variável radioButtonTipo
-        RadioButton frequencia = activity.findViewById(selectedId);
-        //Convertendo o valor do radioButton para String
-        return (String) frequencia.getText();
-    }
-
-    private int getIdRadioButton (String radioButtonString){
-        //getChildCount(): quantidade de radiobuttons no radioGroup
-        //percorre os buttons do radioGroup
-        for (int i = 0; i < campoFrequencia.getChildCount() ; i++){
-            //getChildAt(i).getId(): pega o id de do radioButton da posição i
-            RadioButton frequencia = activity.findViewById(campoFrequencia.getChildAt(i).getId());
-            //verifica se a radioButtonString está em algum dos buttons do radioGroup
-            if (frequencia.getText().equals(radioButtonString)){
-                return campoFrequencia.getChildAt(i).getId();
-            }
-        }
-        return 0;
     }
 
     public boolean checkRequiredFields() {
