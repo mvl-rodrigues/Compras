@@ -70,6 +70,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return getNome() + " - R$" + getPreco().toString();
+        String show = getNome() + " - R$" + getPreco().toString() + " - " + getComprado();
+        return show;
     }
 }

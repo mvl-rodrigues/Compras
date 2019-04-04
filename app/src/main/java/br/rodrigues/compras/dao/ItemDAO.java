@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ItemDAO {
     }
 
     public List<Item> getAllItems() {
-        String sql = "SELECT * FROM Itens";
+        String sql = "SELECT * FROM " + TABLE;
 
         db = conexao.getReadableDatabase();
 
@@ -41,15 +42,17 @@ public class ItemDAO {
             item.setFrequencia(ponteiro.getInt(ponteiro.getColumnIndex("frequencia")));
             item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
 
+            Log.i("AQUI!", item.getNome()+" update: "+ item.getComprado());
+
             itens.add(item);
         }
         ponteiro.close();
+        db.close();
 
         return itens;
     }
 
     private ContentValues getItemData(Item item) {
-
         ContentValues dados = new ContentValues();
 
         dados.put("nome", item.getNome());
@@ -57,7 +60,7 @@ public class ItemDAO {
         dados.put("categoria", item.getCategoria());
         dados.put("observacao", item.getObservacao());
         dados.put("frequencia", item.getFrequencia());
-        dados.put("comprado", item.getComprado());
+        dados.put("comprado", String.valueOf(item.getComprado()));
 
         return dados;
     }
@@ -73,7 +76,6 @@ public class ItemDAO {
     }
 
     public void update(Item item) {
-
         db = conexao.getWritableDatabase();
 
         ContentValues data = getItemData(item);
@@ -86,11 +88,12 @@ public class ItemDAO {
     }
 
     public void delete (Item item){
-
         db = conexao.getWritableDatabase();
 
         String[] params = {item.getId().toString()};
 
         db.delete(TABLE, "id = ?", params);
+
+        db.close();
     }
 }

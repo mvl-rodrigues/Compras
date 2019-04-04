@@ -40,7 +40,6 @@ public class ListaItensActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
         MenuItem deletar = menu.add("Deletar");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -64,8 +63,15 @@ public class ListaItensActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Toast.makeText(ListaItensActivity.this, "Atualizado!", Toast.LENGTH_SHORT).show();
+                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
+                Item itemToUpdate = (Item) listaItens.getItemAtPosition(menuInfo.position);
+
+                Intent goToUpdate = new Intent(ListaItensActivity.this, FormularioActivity.class);
+
+                goToUpdate.putExtra("itemToUpdate", itemToUpdate);
+
+                startActivity(goToUpdate);
                 return false;
             }
         });
@@ -76,10 +82,16 @@ public class ListaItensActivity extends AppCompatActivity {
         listaItens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
-                Item itemToUpdate = (Item) lista.getItemAtPosition(position);
-                Intent goToUpdate = new Intent(ListaItensActivity.this, FormularioActivity.class);
-                goToUpdate.putExtra("itemToUpdate", itemToUpdate);
-                startActivity(goToUpdate);
+                Item itemToComprado = (Item) lista.getItemAtPosition(position);
+
+                if (itemToComprado.getComprado()) {
+                    itemToComprado.setComprado(false);
+                    dao.update(itemToComprado);
+                } else {
+                    itemToComprado.setComprado(true);
+                    dao.update(itemToComprado);
+                }
+                updatedListItems();
             }
         });
     }
