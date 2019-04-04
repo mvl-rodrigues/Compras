@@ -22,5 +22,7 @@
 
     <string name="alert_default">Alerta!</string>
 
+    <string name="activity_lista_itens_bar_total">Total: R$</string>
+    <string name="activity_lista_itens_bar_subtotal">Subtotal: R$</string>
 
 </resources>

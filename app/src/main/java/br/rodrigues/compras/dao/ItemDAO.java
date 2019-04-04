@@ -42,8 +42,6 @@ public class ItemDAO {
             item.setFrequencia(ponteiro.getInt(ponteiro.getColumnIndex("frequencia")));
             item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
 
-            Log.i("AQUI!", item.getNome()+" update: "+ item.getComprado());
-
             itens.add(item);
         }
         ponteiro.close();
