@@ -84,7 +84,7 @@ public class ListaItensHelper {
     public void subtotalCalculation() {
         Double custoSubtotal = 0.0;
         for (Item item: itens){
-            if (item.getComprado()){
+            if (!item.getComprado()){
                 custoSubtotal = custoSubtotal + item.getPreco();
             }
         }
@@ -110,4 +110,17 @@ public class ListaItensHelper {
         adapter.addAll(itens);
     }
 
+    public void cleanList() {
+        for(Item item: itens){
+            if (item.getComprado()){
+                item.setComprado(false);
+                dao.update(item);
+            }
+            updatedListItems();
+        }
+    }
+
+    public void deleteList() {
+        dao.deleteAll();
+    }
 }

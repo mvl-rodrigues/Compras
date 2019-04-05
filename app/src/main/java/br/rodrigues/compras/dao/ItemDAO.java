@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +90,27 @@ public class ItemDAO {
         String[] params = {item.getId().toString()};
 
         db.delete(TABLE, "id = ?", params);
+
+        db.close();
+    }
+
+    public void deleteAll(){
+        db = conexao.getWritableDatabase();
+
+        String sql = "DROP TABLE "+ TABLE;
+
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE " + TABLE +
+                "(id INTEGER PRIMARY KEY, " +
+                "nome TEXT NOT NULL, " +
+                "preco REAL, " +
+                "observacao TEXT, " +
+                "categoria INTEGER, " +
+                "frequencia INTEGER, " +
+                "comprado BOOLEAN);";
+
+        db.execSQL(sql);
 
         db.close();
     }
