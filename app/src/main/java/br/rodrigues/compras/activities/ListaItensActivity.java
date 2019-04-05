@@ -10,13 +10,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 
 public class ListaItensActivity extends AppCompatActivity {
 
-    public static final String TITLE_APPBAR = "Lista";
+    public static final String TITLE_APPBAR = "Compras";
     private ListaItensHelper helper;
 
     @Override
@@ -24,6 +26,11 @@ public class ListaItensActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_itens);
         setTitle(TITLE_APPBAR);
+
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher_compra);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         helper = new ListaItensHelper(this);
     }
 

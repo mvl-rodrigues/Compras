@@ -15,7 +15,7 @@ import br.rodrigues.compras.model.Item;
 public class FormularioActivity extends AppCompatActivity {
 
     public static final String TITLE_APPBAR_NOVO = "Novo Item";
-    public static final String TITLE_APPBAR_EDITA = "Edita Item";
+    public static final String TITLE_APPBAR_EDITA = "Editar Item";
     private FormularioHelper helper;
 
     @Override
@@ -55,7 +55,6 @@ public class FormularioActivity extends AppCompatActivity {
                     finish();
                     Toast.makeText(this, "Item "+itemOk.getNome()+" editado.", Toast.LENGTH_SHORT).show();
                 }
-
         }
         return super.onOptionsItemSelected(item);
     }

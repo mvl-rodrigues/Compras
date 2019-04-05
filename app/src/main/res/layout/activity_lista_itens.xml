@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.ListaItensActivity">
 
-
     <ListView
         android:id="@+id/activity_lista_itens_listview"
         android:layout_width="match_parent"
@@ -89,5 +88,15 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/activity_lista_itens_textview_subtotal"
         app:layout_constraintTop_toBottomOf="@+id/activity_lista_itens_total" />
+
+    <Spinner
+        android:id="@+id/activity_lista_itens_ordena"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:entries="@array/categorias"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

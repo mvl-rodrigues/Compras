@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.rodrigues.compras.R;
@@ -20,32 +22,58 @@ public class ListaItensHelper {
     private ListaItensActivity activity;
     private TextView viewTotal;
     private TextView viewSubtotal;
-    private ListView listaItens;
+    private ListView listaItems;
     private FloatingActionButton fab_add;
-    private List<Item> itens;
+    private List<Item> items;
     private ArrayAdapter adapter;
+    private Spinner spinnerSort;
+    private List<Item> itemsHelper;
+    private int position = -1;
 
     public ListaItensHelper (ListaItensActivity context){
         activity = context;
         dao = new ItemDAO(activity);
+        itemsHelper = new ArrayList<>();
         getViews();
         setupListaDeItens();
         setupFabAdd();
         setupShortClickListener();
+        setupSpinnerSort();
     }
+
+    /*************************************************
+     * SETTINGS HELPER CLASS
+     *************************************************/
 
     private void getViews() {
         viewTotal = activity.findViewById(R.id.activity_lista_itens_total);
         viewSubtotal = activity.findViewById(R.id.activity_lista_itens_subtotal);
-        listaItens = activity.findViewById(R.id.activity_lista_itens_listview);
+        listaItems = activity.findViewById(R.id.activity_lista_itens_listview);
         fab_add = activity.findViewById(R.id.activity_lista_itens_fab_add);
+        spinnerSort = activity.findViewById(R.id.activity_lista_itens_ordena);
+    }
+
+    private void setupSpinnerSort() {
+        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    sortListItems(position);
+                } else {
+                    updatedListItems();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setupListaDeItens() {
-        itens = dao.getAllItems();
-        adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, itens);
-        listaItens.setAdapter(adapter);
-        activity.registerForContextMenu(listaItens);
+        items = dao.getAllItems();
+        adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, items);
+        listaItems.setAdapter(adapter);
+        activity.registerForContextMenu(listaItems);
     }
 
     private void setupFabAdd() {
@@ -59,7 +87,7 @@ public class ListaItensHelper {
     }
 
     private void setupShortClickListener() {
-        listaItens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listaItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
                 Item itemToComprado = (Item) lista.getItemAtPosition(position);
@@ -71,19 +99,39 @@ public class ListaItensHelper {
                     itemToComprado.setComprado(true);
                     dao.update(itemToComprado);
                 }
-                updatedListItems();
+                chooseUpdate();
                 subtotalCalculation();
             }
         });
     }
 
-    /**
-     * Funcionalidades
-     */
+    private void chooseUpdate() {
+        if (this.position == -1){
+            updatedListItems();
+        } else {
+            updatedItemsHelper();
+        }
+    }
+
+    /*************************************************
+     * METHODS TO HELP ACTIVITY
+     *************************************************/
+
+    public void sortListItems (int position){
+        this.position = position;
+        itemsHelper.clear();
+        for (Item i: items) {
+            if (i.getCategoria() == position) {
+                itemsHelper.add(i);
+            }
+        }
+        adapter.clear();
+        adapter.addAll(itemsHelper);
+    }
 
     public void subtotalCalculation() {
         Double custoSubtotal = 0.0;
-        for (Item item: itens){
+        for (Item item: items){
             if (!item.getComprado()){
                 custoSubtotal = custoSubtotal + item.getPreco();
             }
@@ -93,25 +141,38 @@ public class ListaItensHelper {
 
     public void totalCalculation() {
         Double custoTotal = 0.0;
-        for (Item item: itens){
+        for (Item item: items){
             custoTotal = custoTotal + item.getPreco();
         }
         viewTotal.setText(String.valueOf(custoTotal));
     }
 
     public Item listaItensGetItemAtPosition (int position){
-        Item item = (Item) listaItens.getItemAtPosition(position);
+        Item item = (Item) listaItems.getItemAtPosition(position);
         return item;
     }
 
-    public void updatedListItems() {
-        itens = dao.getAllItems();
+    public void updatedItemsHelper() {
+        items = dao.getAllItems();
         adapter.clear();
-        adapter.addAll(itens);
+        itemsHelper.clear();
+
+        for (Item i: items) {
+            if (i.getCategoria() == position) {
+                itemsHelper.add(i);
+            }
+        }
+        adapter.addAll(itemsHelper);
+    }
+
+    public void updatedListItems() {
+        items = dao.getAllItems();
+        adapter.clear();
+        adapter.addAll(items);
     }
 
     public void cleanList() {
-        for(Item item: itens){
+        for(Item item: items){
             if (item.getComprado()){
                 item.setComprado(false);
                 dao.update(item);
