@@ -1,5 +1,7 @@
 package br.rodrigues.compras.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +93,7 @@ public class ListaItensHelper {
         listaItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
+
                 Item itemToComprado = (Item) lista.getItemAtPosition(position);
 
                 if (itemToComprado.getComprado()) {
@@ -182,6 +186,19 @@ public class ListaItensHelper {
     }
 
     public void deleteList() {
-        dao.deleteAll();
+
+        new AlertDialog.Builder(activity)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Atenção!")
+                .setMessage("Você realmente deseja deletar toda a lista?")
+                .setNegativeButton("Não", null)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dao.deleteAll();
+                        Toast.makeText(activity, "Lista deletada", Toast.LENGTH_SHORT).show();
+                        updatedListItems();
+                    }
+                }).create().show();
     }
 }

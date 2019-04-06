@@ -1,7 +1,9 @@
 package br.rodrigues.compras.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -51,7 +53,6 @@ public class ListaItensActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 helper.deleteList();
-                Toast.makeText(ListaItensActivity.this, "Lista deletada", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -66,18 +67,26 @@ public class ListaItensActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-                Item itemToDelete = helper.listaItensGetItemAtPosition(menuInfo.position);
+                final Item itemToDelete = helper.listaItensGetItemAtPosition(menuInfo.position);
 
-                ItemDAO dao = new ItemDAO(ListaItensActivity.this);
+                new AlertDialog.Builder(ListaItensActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Atenção!")
+                        .setMessage("Você realmente deseja deletar o item "+itemToDelete.getNome()+"?")
+                        .setNegativeButton("Não", null)
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ItemDAO dao = new ItemDAO(ListaItensActivity.this);
+                                dao.delete(itemToDelete);
 
-                dao.delete(itemToDelete);
+                                helper.updatedListItems();
+                                helper.totalCalculation();
+                                helper.subtotalCalculation();
 
-                helper.updatedListItems();
-                helper.totalCalculation();
-                helper.subtotalCalculation();
-
-                Toast.makeText(ListaItensActivity.this, "Item deletado", Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(ListaItensActivity.this, "Item deletado", Toast.LENGTH_SHORT).show();
+                            }
+                        }).create().show();
                 return false;
             }
         });

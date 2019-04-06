@@ -47,13 +47,17 @@ public class FormularioActivity extends AppCompatActivity {
                 ItemDAO dao = new ItemDAO(this);
 
                 if (itemOk.getId() == null) {
-                    itemOk.setComprado(false);
-                    dao.create(itemOk);
-                    Toast.makeText(this, "Item "+itemOk.getNome()+" adicionado.", Toast.LENGTH_SHORT).show();
+
+                    if (helper.checkingNameExists() && helper.checkingNameEmpty()){
+                        dao.create(itemOk);
+                        Toast.makeText(this, "Item "+itemOk.getNome()+" adicionado.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    dao.update(itemOk);
-                    finish();
-                    Toast.makeText(this, "Item "+itemOk.getNome()+" editado.", Toast.LENGTH_SHORT).show();
+                    if (helper.checkingNameEmpty()){
+                        dao.update(itemOk);
+                        finish();
+                        Toast.makeText(this, "Item "+itemOk.getNome()+" editado.", Toast.LENGTH_SHORT).show();
+                    }
                 }
         }
         return super.onOptionsItemSelected(item);
