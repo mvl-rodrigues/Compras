@@ -27,9 +27,9 @@ public class ListaItensActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_itens);
         setTitle(TITLE_APPBAR);
 
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setLogo(R.mipmap.ic_launcher_compra);
-//        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher_compras);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         helper = new ListaItensHelper(this);
     }

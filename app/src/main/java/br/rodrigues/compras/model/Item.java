@@ -1,6 +1,7 @@
 package br.rodrigues.compras.model;
 
 import java.io.Serializable;
+import java.text.Format;
 
 public class Item implements Serializable {
 
