@@ -20,7 +20,7 @@ import br.rodrigues.compras.model.Item;
 
 public class ListaItensActivity extends AppCompatActivity {
 
-    public static final String TITLE_APPBAR = "Compras";
+    public static final String TITLE_APPBAR = "Lista";
     private ListaItensHelper helper;
 
     @Override
@@ -43,6 +43,8 @@ public class ListaItensActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 helper.cleanList();
                 helper.updatedListItems();
+                helper.setPositionToSortList(0);
+                helper.setSpinnerSort(0);
                 helper.subtotalCalculation();
                 Toast.makeText(ListaItensActivity.this, "Lista limpada", Toast.LENGTH_SHORT).show();
                 return false;

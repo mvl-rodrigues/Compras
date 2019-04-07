@@ -30,13 +30,12 @@ public class ListaItensHelper {
     private List<Item> items;
     private ArrayAdapter adapter;
     private Spinner spinnerSort;
-    private List<Item> itemsHelper;
-    private int position = -1;
+    private int positionToSortList;
 
     public ListaItensHelper (ListaItensActivity context){
         activity = context;
         dao = new ItemDAO(activity);
-        itemsHelper = new ArrayList<>();
+        positionToSortList = 0;
         getViews();
         setupListaDeItens();
         setupFabAdd();
@@ -56,13 +55,23 @@ public class ListaItensHelper {
         spinnerSort = activity.findViewById(R.id.activity_lista_itens_ordena);
     }
 
+    public void setSpinnerSort(int spinnerPosition) {
+        this.spinnerSort.setSelection(spinnerPosition);
+    }
+
+    public void setPositionToSortList(int positionToSortList) {
+        this.positionToSortList = positionToSortList;
+    }
+
     private void setupSpinnerSort() {
         spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    sortListItems(position);
+                    setPositionToSortList(position);
+                    updatedItemsListByCategoria();
                 } else {
+                    setPositionToSortList(position);
                     updatedListItems();
                 }
             }
@@ -103,35 +112,15 @@ public class ListaItensHelper {
                     itemToComprado.setComprado(true);
                     dao.update(itemToComprado);
                 }
-                chooseUpdate();
+                updatedItemsListByCategoria();
                 subtotalCalculation();
             }
         });
     }
 
-    private void chooseUpdate() {
-        if (this.position == -1){
-            updatedListItems();
-        } else {
-            updatedItemsHelper();
-        }
-    }
-
     /*************************************************
      * METHODS TO HELP ACTIVITY
      *************************************************/
-
-    public void sortListItems (int position){
-        this.position = position;
-        itemsHelper.clear();
-        for (Item i: items) {
-            if (i.getCategoria() == position) {
-                itemsHelper.add(i);
-            }
-        }
-        adapter.clear();
-        adapter.addAll(itemsHelper);
-    }
 
     public void subtotalCalculation() {
         Double custoSubtotal = 0.0;
@@ -156,17 +145,20 @@ public class ListaItensHelper {
         return item;
     }
 
-    public void updatedItemsHelper() {
-        items = dao.getAllItems();
-        adapter.clear();
-        itemsHelper.clear();
-
-        for (Item i: items) {
-            if (i.getCategoria() == position) {
-                itemsHelper.add(i);
+    public void updatedItemsListByCategoria() {
+        if (positionToSortList != 0){
+            List<Item> itemsHelper = new ArrayList<>(dao.getAllItems());
+            items.clear();
+            for (Item i: itemsHelper) {
+                if (i.getCategoria() == positionToSortList) {
+                    items.add(i);
+                }
             }
+            adapter.clear();
+            adapter.addAll(items);
+        } else {
+            updatedListItems();
         }
-        adapter.addAll(itemsHelper);
     }
 
     public void updatedListItems() {
