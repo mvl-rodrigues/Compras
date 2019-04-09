@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ public class ListaItensHelper {
     private ListView listaItems;
     private FloatingActionButton fab_add;
     private List<Item> items;
-    private ArrayAdapter adapter;
+    private ItemAdapter adapter;
     private Spinner spinnerSort;
     private int positionToSortList;
 
@@ -41,6 +40,7 @@ public class ListaItensHelper {
         setupFabAdd();
         setupShortClickListener();
         setupSpinnerSort();
+
     }
 
     /*************************************************
@@ -83,7 +83,7 @@ public class ListaItensHelper {
 
     private void setupListaDeItens() {
         items = dao.getAllItems();
-        adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, items);
+        adapter = new ItemAdapter(activity, items);
         listaItems.setAdapter(adapter);
         activity.registerForContextMenu(listaItems);
     }
@@ -154,8 +154,7 @@ public class ListaItensHelper {
                     items.add(i);
                 }
             }
-            adapter.clear();
-            adapter.addAll(items);
+            adapter.update(items);
         } else {
             updatedListItems();
         }
@@ -163,8 +162,7 @@ public class ListaItensHelper {
 
     public void updatedListItems() {
         items = dao.getAllItems();
-        adapter.clear();
-        adapter.addAll(items);
+        adapter.update(items);
     }
 
     public void cleanList() {
@@ -193,4 +191,5 @@ public class ListaItensHelper {
                     }
                 }).create().show();
     }
+
 }
