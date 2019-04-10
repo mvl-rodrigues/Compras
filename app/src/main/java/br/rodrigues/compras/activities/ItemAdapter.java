@@ -57,7 +57,7 @@ public class ItemAdapter extends BaseAdapter {
         ImageButton comprado = view.findViewById(R.id.item_image_button_comprado);
 
         nome.setText(item.getNome());
-        preco.setText(String.valueOf(item.getPreco()));
+        preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         categoria.setText(categorias.getItemAtPosition(item.getCategoria()).toString());
 
         if (item.getComprado()){

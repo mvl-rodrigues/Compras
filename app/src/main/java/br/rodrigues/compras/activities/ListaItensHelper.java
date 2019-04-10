@@ -11,8 +11,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
@@ -40,6 +42,9 @@ public class ListaItensHelper {
         setupFabAdd();
         setupShortClickListener();
         setupSpinnerSort();
+    }
+
+    public ListaItensHelper (){
 
     }
 
@@ -122,6 +127,13 @@ public class ListaItensHelper {
      * METHODS TO HELP ACTIVITY
      *************************************************/
 
+    public String formatarEmReais(double valor) {
+        Locale REAL_BR = new Locale("pt", "BR");
+        NumberFormat valorEmReais = NumberFormat.getInstance(REAL_BR);
+        valorEmReais.setMinimumFractionDigits(2);
+        return valorEmReais.format(valor);
+    }
+
     public void subtotalCalculation() {
         Double custoSubtotal = 0.0;
         for (Item item: items){
@@ -129,7 +141,7 @@ public class ListaItensHelper {
                 custoSubtotal = custoSubtotal + item.getPreco();
             }
         }
-        viewSubtotal.setText(String.valueOf(custoSubtotal));
+        viewSubtotal.setText(formatarEmReais(custoSubtotal));
     }
 
     public void totalCalculation() {
@@ -137,7 +149,7 @@ public class ListaItensHelper {
         for (Item item: items){
             custoTotal = custoTotal + item.getPreco();
         }
-        viewTotal.setText(String.valueOf(custoTotal));
+        viewTotal.setText(formatarEmReais(custoTotal));
     }
 
     public Item listaItensGetItemAtPosition (int position){
