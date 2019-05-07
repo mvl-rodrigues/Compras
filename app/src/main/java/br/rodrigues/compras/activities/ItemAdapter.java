@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ public class ItemAdapter extends BaseAdapter {
         TextView precoSimbulo = view.findViewById(R.id.tv_preco_simbulo);
         Spinner categorias = view.findViewById(R.id.item_campo_categorias);
         TextView categoria = view.findViewById(R.id.item_campo_categoria);
-        ImageButton comprado = view.findViewById(R.id.item_image_button_comprado);
+        ImageView comprado = view.findViewById(R.id.item_image_button_comprado);
 
         nome.setText(item.getNome());
         preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
