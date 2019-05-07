@@ -1,6 +1,8 @@
 package br.rodrigues.compras.activities;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,7 @@ public class ItemAdapter extends BaseAdapter {
 
         TextView nome = view.findViewById(R.id.item_campo_nome);
         TextView preco = view.findViewById(R.id.item_campo_preco);
+        TextView precoSimbulo = view.findViewById(R.id.tv_preco_simbulo);
         Spinner categorias = view.findViewById(R.id.item_campo_categorias);
         TextView categoria = view.findViewById(R.id.item_campo_categoria);
         ImageButton comprado = view.findViewById(R.id.item_image_button_comprado);
@@ -59,9 +62,22 @@ public class ItemAdapter extends BaseAdapter {
         nome.setText(item.getNome());
         preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         categoria.setText(categorias.getItemAtPosition(item.getCategoria()).toString());
+        preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
 
         if (item.getComprado()){
             comprado.setVisibility(View.VISIBLE);
+
+            nome.setTextColor(Color.LTGRAY);
+            nome.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            preco.setTextColor(Color.LTGRAY);
+            preco.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            precoSimbulo.setTextColor(Color.LTGRAY);
+            precoSimbulo.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            categoria.setTextColor(Color.LTGRAY);
+            categoria.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
     }

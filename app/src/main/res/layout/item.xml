@@ -1,96 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_height="80dp"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
 
-
-    <TextView
-        android:id="@+id/item_campo_nome"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toEndOf="@+id/item_image_button_comprado"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Nome" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/item_campo_preco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="000,00" />
+        <TextView
+            android:id="@+id/item_campo_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Nome do Item Comprado" />
 
-    <Spinner
-        android:id="@+id/item_campo_categorias"
-        android:layout_width="146dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
-        android:entries="@array/categorias"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@+id/item_image_button_comprado"
-        app:layout_constraintTop_toBottomOf="@+id/item_campo_nome" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_preco_simbulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="R$"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"/>
+
+            <TextView
+                android:id="@+id/item_campo_preco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="000,00" />
+
+            <Spinner
+                android:id="@+id/item_campo_categorias"
+                android:layout_width="146dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:entries="@array/categorias"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/item_campo_categoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="18sp"
+                tools:text="Categoria do Item X" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/item_image_button_comprado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@color/colorRedDark"
-        android:src="@drawable/ic_action_btn_salvar"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/item_campo_categoria"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#FFFFFFFF"
+        android:src="@drawable/ic_comprado"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="R$"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/item_campo_preco"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorWhite"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_campo_categoria" />
-
-    <TextView
-        android:id="@+id/item_campo_categoria"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_image_button_comprado"
-        app:layout_constraintTop_toBottomOf="@+id/item_campo_nome"
-        tools:text="Categoria" />
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

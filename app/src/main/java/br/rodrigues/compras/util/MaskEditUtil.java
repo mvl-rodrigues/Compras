@@ -73,8 +73,7 @@ public abstract class MaskEditUtil {
                     String cleanString = s.toString().replaceAll("[R$,.]", "");
 
                     double parsed = Double.parseDouble(cleanString);
-                    Locale BR = new Locale("pt","BR");
-                    String formatted = NumberFormat.getInstance(BR).format((parsed/100));
+                    String formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
 
                     current = formatted.replaceAll("[R$]", "");
                     ediTxt.setText(current);
