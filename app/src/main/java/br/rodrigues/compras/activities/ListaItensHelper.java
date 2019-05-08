@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,8 +31,8 @@ public class ListaItensHelper {
     private FloatingActionButton fab_add;
     private List<Item> items;
     private ItemAdapter adapter;
-    private Spinner spinnerSort;
     private int positionToSortList;
+    private Button btn_filtrar;
 
     public ListaItensHelper (ListaItensActivity context){
         activity = context;
@@ -41,7 +42,6 @@ public class ListaItensHelper {
         setupListaDeItens();
         setupFabAdd();
         setupShortClickListener();
-        setupSpinnerSort();
     }
 
     public ListaItensHelper (){
@@ -57,33 +57,8 @@ public class ListaItensHelper {
         viewSubtotal = activity.findViewById(R.id.activity_lista_itens_subtotal);
         listaItems = activity.findViewById(R.id.activity_lista_itens_listview);
         fab_add = activity.findViewById(R.id.activity_lista_itens_fab_add);
-        spinnerSort = activity.findViewById(R.id.activity_lista_itens_ordena);
-    }
 
-    public void setSpinnerSort(int spinnerPosition) {
-        this.spinnerSort.setSelection(spinnerPosition);
-    }
-
-    public void setPositionToSortList(int positionToSortList) {
-        this.positionToSortList = positionToSortList;
-    }
-
-    private void setupSpinnerSort() {
-        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    setPositionToSortList(position);
-                    updatedItemsListByCategoria();
-                } else {
-                    setPositionToSortList(position);
-                    updatedListItems();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        btn_filtrar = activity.findViewById(R.id.activity_lista_itens_btn_filtrar);
     }
 
     private void setupListaDeItens() {
@@ -91,6 +66,8 @@ public class ListaItensHelper {
         adapter = new ItemAdapter(activity, items);
         listaItems.setAdapter(adapter);
         activity.registerForContextMenu(listaItems);
+
+        activity.registerForContextMenu(btn_filtrar);
     }
 
     private void setupFabAdd() {

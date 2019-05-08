@@ -26,6 +26,8 @@ public class FormularioActivity extends AppCompatActivity {
 
         helper = new FormularioHelper(this);
 
+        helper.inflateBtnVoltar();
+
         Intent intent = getIntent();
 
         Item itemOk = (Item) intent.getSerializableExtra("itemToUpdate");
@@ -59,6 +61,13 @@ public class FormularioActivity extends AppCompatActivity {
                         Toast.makeText(this, "Item "+itemOk.getNome()+" editado.", Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                break;
+
+            default:
+                //botao voltar padrao
+                finish();
+
         }
         return super.onOptionsItemSelected(item);
     }

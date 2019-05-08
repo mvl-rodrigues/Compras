@@ -4,18 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants" >
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
+        android:id="@+id/groupview_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="8dp">
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp">
 
         <TextView
             android:id="@+id/item_campo_nome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/background_dark"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="Nome do Item Comprado" />
@@ -53,19 +57,19 @@
                 android:entries="@array/categorias"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/item_campo_categoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="18sp"
-                tools:text="Categoria do Item X" />
-
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_campo_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/groupview_main"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:textSize="18sp"
+        tools:text="Categoria do Item X" />
 
     <ImageView
         android:id="@+id/item_image_button_comprado"
@@ -74,7 +78,7 @@
         android:src="@drawable/ic_comprado"
         android:visibility="gone"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"/>
 
 </RelativeLayout>

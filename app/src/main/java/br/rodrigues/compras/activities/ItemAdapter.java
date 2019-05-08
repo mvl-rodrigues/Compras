@@ -63,21 +63,22 @@ public class ItemAdapter extends BaseAdapter {
         nome.setText(item.getNome());
         preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         categoria.setText(categorias.getItemAtPosition(item.getCategoria()).toString());
-        preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
+
+
 
         if (item.getComprado()){
             comprado.setVisibility(View.VISIBLE);
 
-            nome.setTextColor(Color.LTGRAY);
+            nome.setTextColor(Color.GRAY);
             nome.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            preco.setTextColor(Color.LTGRAY);
+            preco.setTextColor(Color.GRAY);
             preco.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            precoSimbulo.setTextColor(Color.LTGRAY);
+            precoSimbulo.setTextColor(Color.GRAY);
             precoSimbulo.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            categoria.setTextColor(Color.LTGRAY);
+            categoria.setTextColor(Color.GRAY);
             categoria.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 

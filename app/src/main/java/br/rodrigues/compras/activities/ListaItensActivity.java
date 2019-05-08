@@ -43,8 +43,6 @@ public class ListaItensActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 helper.cleanList();
                 helper.updatedListItems();
-                helper.setPositionToSortList(0);
-                helper.setSpinnerSort(0);
                 helper.subtotalCalculation();
                 Toast.makeText(ListaItensActivity.this, "Lista limpada", Toast.LENGTH_SHORT).show();
                 return false;
@@ -64,52 +62,65 @@ public class ListaItensActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
 
-        menu.add("Deletar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if (v.getId() == R.id.activity_lista_itens_btn_filtrar){
+            menu.add("Outros");
 
-                final Item itemToDelete = helper.listaItensGetItemAtPosition(menuInfo.position);
+            menu.add("Outros1");
 
-                new AlertDialog.Builder(ListaItensActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Atenção!")
-                        .setMessage("Você realmente deseja deletar o item "+itemToDelete.getNome()+"?")
-                        .setNegativeButton("Não", null)
-                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ItemDAO dao = new ItemDAO(ListaItensActivity.this);
-                                dao.delete(itemToDelete);
+            menu.add("Outros2");
 
-                                helper.updatedListItems();
-                                helper.totalCalculation();
-                                helper.subtotalCalculation();
+            menu.add("Outros3");
 
-                                Toast.makeText(ListaItensActivity.this, "Item deletado", Toast.LENGTH_SHORT).show();
-                            }
-                        }).create().show();
-                return false;
-            }
-        });
+            menu.add("Outros4");
+        }
 
-        menu.add("Editar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        if (v.getId() == R.id.activity_lista_itens_listview){
+            menu.add("Deletar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                    final Item itemToDelete = helper.listaItensGetItemAtPosition(menuInfo.position);
 
-                Item itemToUpdate = helper.listaItensGetItemAtPosition(menuInfo.position);
+                    new AlertDialog.Builder(ListaItensActivity.this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Atenção!")
+                            .setMessage("Você realmente deseja deletar o item "+itemToDelete.getNome()+"?")
+                            .setNegativeButton("Não", null)
+                            .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ItemDAO dao = new ItemDAO(ListaItensActivity.this);
+                                    dao.delete(itemToDelete);
 
-                Intent goToUpdate = new Intent(ListaItensActivity.this, FormularioActivity.class);
+                                    helper.updatedListItems();
+                                    helper.totalCalculation();
+                                    helper.subtotalCalculation();
 
-                goToUpdate.putExtra("itemToUpdate", itemToUpdate);
+                                    Toast.makeText(ListaItensActivity.this, "Item deletado", Toast.LENGTH_SHORT).show();
+                                }
+                            }).create().show();
+                    return false;
+                }
+            });
 
-                startActivity(goToUpdate);
-                return false;
-            }
-        });
+            menu.add("Editar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
 
+                    AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+                    Item itemToUpdate = helper.listaItensGetItemAtPosition(menuInfo.position);
+
+                    Intent goToUpdate = new Intent(ListaItensActivity.this, FormularioActivity.class);
+
+                    goToUpdate.putExtra("itemToUpdate", itemToUpdate);
+
+                    startActivity(goToUpdate);
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

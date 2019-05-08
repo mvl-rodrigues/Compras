@@ -1,19 +1,21 @@
 package br.rodrigues.compras.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import java.text.NumberFormat;
 import java.util.List;
 
-import br.rodrigues.compras.util.MaskEditUtil;
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
+import br.rodrigues.compras.util.MaskEditUtil;
 
 public class FormularioHelper {
 
@@ -33,7 +35,7 @@ public class FormularioHelper {
 
     public void fillItem (Item item){
         campoNome.setText(item.getNome());
-        campoPreco.setText(String.format("%.2f", item.getPreco()));
+        campoPreco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         campoObs.setText(item.getObservacao());
         campoCategoria.setSelection(item.getCategoria());
         campoFrequencia.check(item.getFrequencia());
@@ -115,5 +117,17 @@ public class FormularioHelper {
         campoCategoria.setSelection(0);
         campoFrequencia.check(R.id.activity_formulario_frequencia_mensal);
         campoNome.setFocusable(true);
+    }
+
+    public void inflateBtnVoltar() {
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View btnVoltar = inflater.inflate(R.layout.btn_voltar_padrao, null);
+
+        ActionBar actionBar = activity.getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        actionBar.setCustomView(btnVoltar);
     }
 }
