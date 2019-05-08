@@ -47,10 +47,10 @@ public class FormularioActivity extends AppCompatActivity {
                 ItemDAO dao = new ItemDAO(this);
 
                 if (itemOk.getId() == null) {
-
                     if (helper.checkingNameExists() && helper.checkingNameEmpty()){
                         dao.create(itemOk);
                         Toast.makeText(this, "Item "+itemOk.getNome()+" adicionado.", Toast.LENGTH_SHORT).show();
+                        helper.clearFields();
                     }
                 } else {
                     if (helper.checkingNameEmpty()){

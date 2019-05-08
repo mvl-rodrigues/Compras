@@ -5,7 +5,9 @@ import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import br.rodrigues.compras.util.MaskEditUtil;
@@ -31,7 +33,7 @@ public class FormularioHelper {
 
     public void fillItem (Item item){
         campoNome.setText(item.getNome());
-        campoPreco.setText(String.valueOf(item.getPreco()));
+        campoPreco.setText(String.format("%.2f", item.getPreco()));
         campoObs.setText(item.getObservacao());
         campoCategoria.setSelection(item.getCategoria());
         campoFrequencia.check(item.getFrequencia());
@@ -58,16 +60,13 @@ public class FormularioHelper {
     private void getActivityViews() {
         campoNome = activity.findViewById(R.id.activity_formulario_nome);
         campoPreco = activity.findViewById(R.id.activity_formulario_preco);
-
         campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
-
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
         campoFrequencia = activity.findViewById(R.id.activity_formulario_frequencia);
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
     }
 
     public boolean checkingNameEmpty() {
-        
         if (campoNome.getText().toString().isEmpty()){
             new AlertDialog.Builder(activity)
                     .setTitle(R.string.alert_default)
@@ -77,8 +76,7 @@ public class FormularioHelper {
                         public void onClick(DialogInterface dialog, int which) {
                             campoNome.requestFocus();
                         }
-                    })
-                    .show();
+                    }).show();
             return false;
         }
         return true;
@@ -108,5 +106,14 @@ public class FormularioHelper {
             }
         }
         return true;
+    }
+
+    public void clearFields() {
+        campoNome.setText(null);
+        campoPreco.setText("0");
+        campoObs.setText(null);
+        campoCategoria.setSelection(0);
+        campoFrequencia.check(R.id.activity_formulario_frequencia_mensal);
+        campoNome.setFocusable(true);
     }
 }

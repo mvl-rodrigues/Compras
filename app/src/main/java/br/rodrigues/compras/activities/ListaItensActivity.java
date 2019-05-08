@@ -20,7 +20,7 @@ import br.rodrigues.compras.model.Item;
 
 public class ListaItensActivity extends AppCompatActivity {
 
-    public static final String TITLE_APPBAR = "Lista";
+    public static final String TITLE_APPBAR = "Compras";
     private ListaItensHelper helper;
 
     @Override
