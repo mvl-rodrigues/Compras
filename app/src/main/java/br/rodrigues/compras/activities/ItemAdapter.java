@@ -93,4 +93,8 @@ public class ItemAdapter extends BaseAdapter {
         this.items.addAll(items);
         notifyDataSetChanged();
     }
+
+    public void simpleUpdate(){
+        notifyDataSetChanged();
+    }
 }

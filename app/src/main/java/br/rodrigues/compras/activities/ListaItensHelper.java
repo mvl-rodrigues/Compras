@@ -8,18 +8,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
+import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
 public class ListaItensHelper {
 
@@ -31,17 +30,16 @@ public class ListaItensHelper {
     private FloatingActionButton fab_add;
     private List<Item> items;
     private ItemAdapter adapter;
-    private int positionToSortList;
     private Button btn_filtrar;
 
     public ListaItensHelper (ListaItensActivity context){
         activity = context;
         dao = new ItemDAO(activity);
-        positionToSortList = 0;
         getViews();
-        setupListaDeItens();
         setupFabAdd();
         setupShortClickListener();
+        setupListaDeItens();
+        setupBtnFiltrar();
     }
 
     public ListaItensHelper (){
@@ -62,12 +60,10 @@ public class ListaItensHelper {
     }
 
     private void setupListaDeItens() {
-        items = dao.getAllItems();
+        items = dao.getAllItems(TODOS);
         adapter = new ItemAdapter(activity, items);
         listaItems.setAdapter(adapter);
         activity.registerForContextMenu(listaItems);
-
-        activity.registerForContextMenu(btn_filtrar);
     }
 
     private void setupFabAdd() {
@@ -76,6 +72,17 @@ public class ListaItensHelper {
             public void onClick(View v) {
                 Intent vaiParaFormulario = new Intent(activity, FormularioActivity.class);
                 activity.startActivity(vaiParaFormulario);
+            }
+        });
+    }
+
+    private void setupBtnFiltrar() {
+        btn_filtrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.registerForContextMenu(btn_filtrar);
+                activity.openContextMenu(btn_filtrar);
+                activity.unregisterForContextMenu(btn_filtrar);
             }
         });
     }
@@ -94,7 +101,7 @@ public class ListaItensHelper {
                     itemToComprado.setComprado(true);
                     dao.update(itemToComprado);
                 }
-                updatedItemsListByCategoria();
+                adapter.simpleUpdate();
                 subtotalCalculation();
             }
         });
@@ -134,23 +141,8 @@ public class ListaItensHelper {
         return item;
     }
 
-    public void updatedItemsListByCategoria() {
-        if (positionToSortList != 0){
-            List<Item> itemsHelper = new ArrayList<>(dao.getAllItems());
-            items.clear();
-            for (Item i: itemsHelper) {
-                if (i.getCategoria() == positionToSortList) {
-                    items.add(i);
-                }
-            }
-            adapter.update(items);
-        } else {
-            updatedListItems();
-        }
-    }
-
     public void updatedListItems() {
-        items = dao.getAllItems();
+        items = dao.getAllItems(TODOS);
         adapter.update(items);
     }
 
@@ -181,4 +173,9 @@ public class ListaItensHelper {
                 }).create().show();
     }
 
+    public void filterByCategory(String categoria) {
+        items = dao.getAllItems(categoria);
+        adapter.update(items);
+
+    }
 }

@@ -17,6 +17,8 @@ import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 import br.rodrigues.compras.util.MaskEditUtil;
 
+import static br.rodrigues.compras.util.ConstantsApp.TODOS;
+
 public class FormularioHelper {
 
     private FormularioActivity activity;
@@ -88,7 +90,7 @@ public class FormularioHelper {
 
         ItemDAO dao = new ItemDAO(activity);
 
-        List<Item> items = dao.getAllItems();
+        List<Item> items = dao.getAllItems(TODOS);
 
         for (Item i: items){
 

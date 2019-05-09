@@ -4,12 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.rodrigues.compras.model.Item;
 import br.rodrigues.compras.repository.BancoSQLite;
+import static br.rodrigues.compras.util.ConstantsApp.*;
 
 public class ItemDAO {
 
@@ -17,12 +19,39 @@ public class ItemDAO {
     private BancoSQLite conexao;
     private SQLiteDatabase db;
 
-    public ItemDAO (Context context) {
+    public ItemDAO(Context context) {
         conexao = new BancoSQLite(context);
     }
 
-    public List<Item> getAllItems() {
+    public List<Item> getAllItems(String CATEGORIA) {
+
         String sql = "SELECT * FROM " + TABLE;
+
+        if (CATEGORIA.equals(OUTROS)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 0;
+        }
+        else if (CATEGORIA.equals(ACOUGUE)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 1;
+        }
+        else if (CATEGORIA.equals(HORTIFRUTI)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 2;
+        }
+        else if (CATEGORIA.equals(GRAOS)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 3;
+        }
+        else if (CATEGORIA.equals(MASSAS)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 4;
+        }
+        else if (CATEGORIA.equals(BEBIDAS)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 5;
+        }
+        else if (CATEGORIA.equals(HIGIENE)) {
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 6;
+        }
+
+        /**
+         * OK
+         */
 
         db = conexao.getReadableDatabase();
 
@@ -30,7 +59,7 @@ public class ItemDAO {
 
         List<Item> itens = new ArrayList<>();
 
-        while (ponteiro.moveToNext()){
+        while (ponteiro.moveToNext()) {
             Item item = new Item();
 
             item.setId(ponteiro.getLong(ponteiro.getColumnIndex("id")));
@@ -84,7 +113,7 @@ public class ItemDAO {
         db.close();
     }
 
-    public void delete (Item item){
+    public void delete(Item item) {
         db = conexao.getWritableDatabase();
 
         String[] params = {item.getId().toString()};
@@ -94,10 +123,10 @@ public class ItemDAO {
         db.close();
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         db = conexao.getWritableDatabase();
 
-        String sql = "DROP TABLE "+ TABLE;
+        String sql = "DROP TABLE " + TABLE;
 
         db.execSQL(sql);
 

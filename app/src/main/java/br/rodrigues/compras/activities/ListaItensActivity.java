@@ -18,6 +18,8 @@ import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 
+import static br.rodrigues.compras.util.ConstantsApp.*;
+
 public class ListaItensActivity extends AppCompatActivity {
 
     public static final String TITLE_APPBAR = "Compras";
@@ -63,15 +65,77 @@ public class ListaItensActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
 
         if (v.getId() == R.id.activity_lista_itens_btn_filtrar){
-            menu.add("Outros");
+            menu.add(TODOS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(TODOS);
+                    Toast.makeText(ListaItensActivity.this, "Todos", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
 
-            menu.add("Outros1");
+            menu.add(OUTROS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(OUTROS);
+                    Toast.makeText(ListaItensActivity.this, "Outros", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
 
-            menu.add("Outros2");
+            menu.add(ACOUGUE).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(ACOUGUE);
+                    Toast.makeText(ListaItensActivity.this, "Açougue", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
 
-            menu.add("Outros3");
+            menu.add(HORTIFRUTI).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(HORTIFRUTI);
+                    Toast.makeText(ListaItensActivity.this, "Hortifruti", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
 
-            menu.add("Outros4");
+            menu.add(GRAOS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(GRAOS);
+                    Toast.makeText(ListaItensActivity.this, "Grãos", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            menu.add(BEBIDAS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(BEBIDAS);
+                    Toast.makeText(ListaItensActivity.this, "Bebidas", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            menu.add(MASSAS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(MASSAS);
+                    Toast.makeText(ListaItensActivity.this, "Massas", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            menu.add(HIGIENE).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    helper.filterByCategory(HIGIENE);
+                    Toast.makeText(ListaItensActivity.this, "Higiene", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
         }
 
         if (v.getId() == R.id.activity_lista_itens_listview){
