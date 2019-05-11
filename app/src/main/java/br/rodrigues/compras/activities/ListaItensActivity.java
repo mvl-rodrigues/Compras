@@ -7,22 +7,29 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
-
-import java.util.Objects;
 
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 
-import static br.rodrigues.compras.util.ConstantsApp.*;
+import static br.rodrigues.compras.util.ConstantsApp.ACOUGUE;
+import static br.rodrigues.compras.util.ConstantsApp.BEBIDAS;
+import static br.rodrigues.compras.util.ConstantsApp.GRAOS;
+import static br.rodrigues.compras.util.ConstantsApp.HIGIENE;
+import static br.rodrigues.compras.util.ConstantsApp.HORTIFRUTI;
+import static br.rodrigues.compras.util.ConstantsApp.MASSAS;
+import static br.rodrigues.compras.util.ConstantsApp.OUTROS;
+import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
 public class ListaItensActivity extends AppCompatActivity {
 
-    public static final String TITLE_APPBAR = "Compras";
+    public static final String TITLE_APPBAR = "Lista";
     private ListaItensHelper helper;
 
     @Override
@@ -30,161 +37,106 @@ public class ListaItensActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_itens);
         setTitle(TITLE_APPBAR);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher_compras);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-
         helper = new ListaItensHelper(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Limpar lista").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                helper.cleanList();
-                helper.updatedListItems();
-                helper.subtotalCalculation();
-                Toast.makeText(ListaItensActivity.this, "Lista limpada", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
 
-        menu.add("Deletar lista").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                helper.deleteList();
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.activity_lista_itens_menu, menu);
+
+        return true;
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (v.getId() == R.id.activity_lista_itens_btn_filtrar){
-            menu.add(TODOS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(TODOS);
-                    Toast.makeText(ListaItensActivity.this, "Todos", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+        switch (item.getItemId()) {
+            case R.id.activity_lista_itens_menu_renew:
 
-            menu.add(OUTROS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(OUTROS);
-                    Toast.makeText(ListaItensActivity.this, "Outros", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                helper.cleanList();
+                helper.updatedListItems();
+                helper.subtotalCalculation();
+                Toast.makeText(this, "Renovada", Toast.LENGTH_SHORT).show();
 
-            menu.add(ACOUGUE).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(ACOUGUE);
-                    Toast.makeText(ListaItensActivity.this, "Açougue", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                break;
+            case R.id.activity_lista_itens_menu_delete:
 
-            menu.add(HORTIFRUTI).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(HORTIFRUTI);
-                    Toast.makeText(ListaItensActivity.this, "Hortifruti", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                helper.deleteList();
 
-            menu.add(GRAOS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(GRAOS);
-                    Toast.makeText(ListaItensActivity.this, "Grãos", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                break;
+            case R.id.activity_lista_itens_menu_filter:
 
-            menu.add(BEBIDAS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(BEBIDAS);
-                    Toast.makeText(ListaItensActivity.this, "Bebidas", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                View menuFilter = findViewById(R.id.activity_lista_itens_menu_filter);
 
-            menu.add(MASSAS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(MASSAS);
-                    Toast.makeText(ListaItensActivity.this, "Massas", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                PopupMenu popup = new PopupMenu(ListaItensActivity.this, menuFilter);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.item_categorias, popup.getMenu());
+                popup.show();
 
-            menu.add(HIGIENE).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    helper.filterByCategory(HIGIENE);
-                    Toast.makeText(ListaItensActivity.this, "Higiene", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()){
+                            case R.id.item_categorias_todos:
+                                helper.filterByCategory(TODOS);
+                                Toast.makeText(ListaItensActivity.this, "Todos", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_outros:
+                                helper.filterByCategory(OUTROS);
+                                Toast.makeText(ListaItensActivity.this, "Outros", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_acougue:
+                                helper.filterByCategory(ACOUGUE);
+                                Toast.makeText(ListaItensActivity.this, "Açougue", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_bebidas:
+                                helper.filterByCategory(BEBIDAS);
+                                Toast.makeText(ListaItensActivity.this, "Bebidas", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_graos:
+                                helper.filterByCategory(GRAOS);
+                                Toast.makeText(ListaItensActivity.this, "Grãos", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_higiene:
+                                helper.filterByCategory(HIGIENE);
+                                Toast.makeText(ListaItensActivity.this, "Higiene", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_hortifruti:
+                                helper.filterByCategory(HORTIFRUTI);
+                                Toast.makeText(ListaItensActivity.this, "Hortifruti", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.item_categorias_massa:
+                                helper.filterByCategory(MASSAS);
+                                Toast.makeText(ListaItensActivity.this, "Massas", Toast.LENGTH_SHORT).show();
+                                break;
+
+                        }
+
+                        return false;
+                    }
+                });
+
+                break;
+            case R.id.activity_lista_itens_menu_search:
+
+                /**
+                 * searching item...
+                 */
+                break;
         }
 
-        if (v.getId() == R.id.activity_lista_itens_listview){
-            menu.add("Deletar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-                    final Item itemToDelete = helper.listaItensGetItemAtPosition(menuInfo.position);
-
-                    new AlertDialog.Builder(ListaItensActivity.this)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setTitle("Atenção!")
-                            .setMessage("Você realmente deseja deletar o item "+itemToDelete.getNome()+"?")
-                            .setNegativeButton("Não", null)
-                            .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ItemDAO dao = new ItemDAO(ListaItensActivity.this);
-                                    dao.delete(itemToDelete);
-
-                                    helper.updatedListItems();
-                                    helper.totalCalculation();
-                                    helper.subtotalCalculation();
-
-                                    Toast.makeText(ListaItensActivity.this, "Item deletado", Toast.LENGTH_SHORT).show();
-                                }
-                            }).create().show();
-                    return false;
-                }
-            });
-
-            menu.add("Editar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-
-                    AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-                    Item itemToUpdate = helper.listaItensGetItemAtPosition(menuInfo.position);
-
-                    Intent goToUpdate = new Intent(ListaItensActivity.this, FormularioActivity.class);
-
-                    goToUpdate.putExtra("itemToUpdate", itemToUpdate);
-
-                    startActivity(goToUpdate);
-                    return false;
-                }
-            });
-        }
+        return false;
     }
 
     @Override

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/activity_lista_itens_menu_search"
+        android:icon="@drawable/ic_action_menu_search"
+        android:title="Pesquisar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/activity_lista_itens_menu_filter"
+        android:icon="@drawable/ic_action_menu_filter"
+        android:title="Filtrar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/activity_lista_itens_menu_renew"
+        android:icon="@drawable/ic_action_menu_renew"
+        android:title="Renovar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/activity_lista_itens_menu_delete"
+        android:icon="@drawable/ic_action_menu_delete"
+        android:title="Deletar"
+        app:showAsAction="always" />
+
+</menu>

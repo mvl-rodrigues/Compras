@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import java.util.Locale;
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
+
 import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
 public class ListaItensHelper {
@@ -30,7 +30,6 @@ public class ListaItensHelper {
     private FloatingActionButton fab_add;
     private List<Item> items;
     private ItemAdapter adapter;
-    private Button btn_filtrar;
 
     public ListaItensHelper (ListaItensActivity context){
         activity = context;
@@ -51,12 +50,11 @@ public class ListaItensHelper {
      *************************************************/
 
     private void getViews() {
-        viewTotal = activity.findViewById(R.id.activity_lista_itens_total);
         viewSubtotal = activity.findViewById(R.id.activity_lista_itens_subtotal);
         listaItems = activity.findViewById(R.id.activity_lista_itens_listview);
         fab_add = activity.findViewById(R.id.activity_lista_itens_fab_add);
 
-        btn_filtrar = activity.findViewById(R.id.activity_lista_itens_btn_filtrar);
+
     }
 
     private void setupListaDeItens() {
@@ -76,15 +74,15 @@ public class ListaItensHelper {
         });
     }
 
-    private void setupBtnFiltrar() {
-        btn_filtrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.registerForContextMenu(btn_filtrar);
-                activity.openContextMenu(btn_filtrar);
-                activity.unregisterForContextMenu(btn_filtrar);
-            }
-        });
+    public void setupBtnFiltrar() {
+//        btn_filtrar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                activity.registerForContextMenu(btn_filtrar);
+//                activity.openContextMenu(btn_filtrar);
+//                activity.unregisterForContextMenu(btn_filtrar);
+//            }
+//        });
     }
 
     private void setupShortClickListener() {
@@ -133,7 +131,6 @@ public class ListaItensHelper {
         for (Item item: items){
             custoTotal = custoTotal + item.getPreco();
         }
-        viewTotal.setText(formatarEmReais(custoTotal));
     }
 
     public Item listaItensGetItemAtPosition (int position){
