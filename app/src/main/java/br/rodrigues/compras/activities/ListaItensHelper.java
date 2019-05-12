@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,8 +25,7 @@ public class ListaItensHelper {
 
     private ItemDAO dao;
     private ListaItensActivity activity;
-    private TextView viewTotal;
-    private TextView viewSubtotal;
+    private TextView valorLista;
     private ListView listaItems;
     private FloatingActionButton fab_add;
     private List<Item> items;
@@ -38,7 +38,6 @@ public class ListaItensHelper {
         setupFabAdd();
         setupShortClickListener();
         setupListaDeItens();
-        setupBtnFiltrar();
     }
 
     public ListaItensHelper (){
@@ -50,7 +49,7 @@ public class ListaItensHelper {
      *************************************************/
 
     private void getViews() {
-        viewSubtotal = activity.findViewById(R.id.activity_lista_itens_subtotal);
+        valorLista = activity.findViewById(R.id.activity_lista_itens_subtotal);
         listaItems = activity.findViewById(R.id.activity_lista_itens_listview);
         fab_add = activity.findViewById(R.id.activity_lista_itens_fab_add);
 
@@ -74,17 +73,6 @@ public class ListaItensHelper {
         });
     }
 
-    public void setupBtnFiltrar() {
-//        btn_filtrar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                activity.registerForContextMenu(btn_filtrar);
-//                activity.openContextMenu(btn_filtrar);
-//                activity.unregisterForContextMenu(btn_filtrar);
-//            }
-//        });
-    }
-
     private void setupShortClickListener() {
         listaItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,8 +83,10 @@ public class ListaItensHelper {
                 if (itemToComprado.getComprado()) {
                     itemToComprado.setComprado(false);
                     dao.update(itemToComprado);
+
                 } else {
                     itemToComprado.setComprado(true);
+                    itemToComprado.setDataCompra(new Date().getTime());
                     dao.update(itemToComprado);
                 }
                 adapter.simpleUpdate();
@@ -123,7 +113,7 @@ public class ListaItensHelper {
                 custoSubtotal = custoSubtotal + item.getPreco();
             }
         }
-        viewSubtotal.setText(formatarEmReais(custoSubtotal));
+        valorLista.setText(formatarEmReais(custoSubtotal));
     }
 
     public void totalCalculation() {
@@ -131,11 +121,6 @@ public class ListaItensHelper {
         for (Item item: items){
             custoTotal = custoTotal + item.getPreco();
         }
-    }
-
-    public Item listaItensGetItemAtPosition (int position){
-        Item item = (Item) listaItems.getItemAtPosition(position);
-        return item;
     }
 
     public void updatedListItems() {

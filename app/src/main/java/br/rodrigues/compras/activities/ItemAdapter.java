@@ -20,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import br.rodrigues.compras.R;
@@ -67,40 +70,45 @@ public class ItemAdapter extends BaseAdapter {
         TextView nome = view.findViewById(R.id.item_campo_nome);
         TextView preco = view.findViewById(R.id.item_campo_preco);
         TextView precoSimbulo = view.findViewById(R.id.tv_preco_simbulo);
-        Spinner categorias = view.findViewById(R.id.item_campo_categorias);
         TextView categoria = view.findViewById(R.id.item_campo_categoria);
         ConstraintLayout itemBackground = view.findViewById(R.id.item_background);
         ImageButton btnEditar = view.findViewById(R.id.item_btn_editar);
         setupBtnEditar(btnEditar, item);
 
+        TextView dataComprado = view.findViewById(R.id.item_last_time);
+
         /**
          * implementando
          */
-        TextView dataTv = view.findViewById(R.id.item_last_time);
+
         ImageView iconImage = view.findViewById(R.id.item_image);
-
-
 
         nome.setText(item.getNome());
         preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
-        categoria.setText(categorias.getItemAtPosition(item.getCategoria()).toString());
+        categoria.setText(item.getCategoria());
 
+        dataComprado.setText(formatDate(item.getDataCompra()));
 
         if (item.getComprado()){
             itemBackground.setBackgroundColor(Color.LTGRAY);
 
+            dataComprado.setTextColor(Color.GRAY);
 
+            nome.setTextColor(Color.GRAY);
 
-            nome.setTextColor(Color.DKGRAY);
+            preco.setTextColor(Color.GRAY);
 
-            preco.setTextColor(Color.DKGRAY);
+            precoSimbulo.setTextColor(Color.GRAY);
 
-            precoSimbulo.setTextColor(Color.DKGRAY);
-
-            categoria.setTextColor(Color.DKGRAY);
+            categoria.setTextColor(Color.GRAY);
 //            nome.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
+    }
+
+    private String formatDate(Long date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss");
+        return dateFormat.format(date);
     }
 
     private void setupBtnEditar(final View view, final Item item) {

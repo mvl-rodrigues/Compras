@@ -7,9 +7,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.TextView;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import br.rodrigues.compras.R;
@@ -24,8 +25,8 @@ public class FormularioHelper {
     private FormularioActivity activity;
     private EditText campoNome;
     private EditText campoPreco;
-    private Spinner campoCategoria;
-    private RadioGroup campoFrequencia;
+    private TextView campoCategoria;
+    private TextView campoDataCompra;
     private EditText campoObs;
     private Item itemOk;
 
@@ -39,8 +40,7 @@ public class FormularioHelper {
         campoNome.setText(item.getNome());
         campoPreco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         campoObs.setText(item.getObservacao());
-        campoCategoria.setSelection(item.getCategoria());
-        campoFrequencia.check(item.getFrequencia());
+        campoCategoria.setText(item.getCategoria());
         itemOk = item;
     }
 
@@ -48,9 +48,10 @@ public class FormularioHelper {
 
         itemOk.setNome(campoNome.getText().toString());
         itemOk.setObservacao(campoObs.getText().toString());
-        itemOk.setCategoria(campoCategoria.getSelectedItemPosition());
-        itemOk.setFrequencia(campoFrequencia.getCheckedRadioButtonId());
+        itemOk.setCategoria(campoCategoria.getText().toString());
         itemOk.setComprado(false);
+
+        itemOk.setDataCompra(Calendar.getInstance().getTimeInMillis());
 
         if (!campoPreco.getText().toString().isEmpty()) {
             itemOk.setPreco(Double.valueOf(campoPreco.getText().toString().replace(",",".")));
@@ -66,7 +67,7 @@ public class FormularioHelper {
         campoPreco = activity.findViewById(R.id.activity_formulario_preco);
         campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
-        campoFrequencia = activity.findViewById(R.id.activity_formulario_frequencia);
+
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
     }
 
@@ -114,11 +115,10 @@ public class FormularioHelper {
 
     public void clearFields() {
         campoNome.setText(null);
+        campoNome.setFocusable(true);
         campoPreco.setText("0");
         campoObs.setText(null);
-        campoCategoria.setSelection(0);
-        campoFrequencia.check(R.id.activity_formulario_frequencia_mensal);
-        campoNome.setFocusable(true);
+        campoCategoria.setText("Categoria");
     }
 
     public void inflateBtnVoltar() {

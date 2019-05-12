@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.rodrigues.compras.model.Item;
@@ -28,25 +27,25 @@ public class ItemDAO {
         String sql = "SELECT * FROM " + TABLE;
 
         if (CATEGORIA.equals(OUTROS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 0;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
         else if (CATEGORIA.equals(ACOUGUE)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 1;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
         else if (CATEGORIA.equals(HORTIFRUTI)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 2;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
         else if (CATEGORIA.equals(GRAOS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 3;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
         else if (CATEGORIA.equals(MASSAS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 4;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
         else if (CATEGORIA.equals(BEBIDAS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 5;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
         else if (CATEGORIA.equals(HIGIENE)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 6;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + CATEGORIA;
         }
 
         /**
@@ -65,9 +64,11 @@ public class ItemDAO {
             item.setId(ponteiro.getLong(ponteiro.getColumnIndex("id")));
             item.setNome(ponteiro.getString(ponteiro.getColumnIndex("nome")));
             item.setPreco(ponteiro.getDouble(ponteiro.getColumnIndex("preco")));
-            item.setCategoria(ponteiro.getInt(ponteiro.getColumnIndex("categoria")));
+            item.setCategoria(ponteiro.getString(ponteiro.getColumnIndex("categoria")));
+
+            item.setDataCompra(ponteiro.getLong(ponteiro.getColumnIndex("data_compra")));
+
             item.setObservacao(ponteiro.getString(ponteiro.getColumnIndex("observacao")));
-            item.setFrequencia(ponteiro.getInt(ponteiro.getColumnIndex("frequencia")));
             item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
 
             itens.add(item);
@@ -84,8 +85,10 @@ public class ItemDAO {
         dados.put("nome", item.getNome());
         dados.put("preco", item.getPreco());
         dados.put("categoria", item.getCategoria());
+
+        dados.put("data_compra", item.getDataCompra());
+
         dados.put("observacao", item.getObservacao());
-        dados.put("frequencia", item.getFrequencia());
         dados.put("comprado", String.valueOf(item.getComprado()));
 
         return dados;
@@ -135,8 +138,9 @@ public class ItemDAO {
                 "nome TEXT NOT NULL, " +
                 "preco REAL, " +
                 "observacao TEXT, " +
-                "categoria INTEGER, " +
-                "frequencia INTEGER, " +
+                "categoria TEXT, " +
+                "data_compra DATE, " +
+                "caminho_imagem TEXT, " +
                 "comprado BOOLEAN);";
 
         db.execSQL(sql);
