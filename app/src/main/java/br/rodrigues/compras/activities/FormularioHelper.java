@@ -6,10 +6,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,29 +20,52 @@ import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 import br.rodrigues.compras.util.MaskEditUtil;
 
-import static br.rodrigues.compras.util.ConstantsApp.TODOS;
+
+import static br.rodrigues.compras.util.ConstantsApp.*;
 
 public class FormularioHelper {
 
     private FormularioActivity activity;
     private EditText campoNome;
     private EditText campoPreco;
-    private TextView campoCategoria;
-    private TextView campoDataCompra;
+    private Spinner campoCategoria;
     private EditText campoObs;
     private Item itemOk;
+
+    private final List<String> Categorias = CATEGORIAS;
 
     public FormularioHelper (FormularioActivity context) {
         activity = context;
         getActivityViews();
         itemOk = new Item();
+
+        setupSpinnerCategoria();
+    }
+
+    private void setupSpinnerCategoria() {
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, Categorias);
+        campoCategoria.setAdapter(spinnerAdapter);
+
+        campoCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /**
+                 * do something a day...
+                 */
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void fillItem (Item item){
         campoNome.setText(item.getNome());
         campoPreco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         campoObs.setText(item.getObservacao());
-        campoCategoria.setText(item.getCategoria());
+        campoCategoria.setSelection(item.getCategoria());
         itemOk = item;
     }
 
@@ -48,9 +73,8 @@ public class FormularioHelper {
 
         itemOk.setNome(campoNome.getText().toString());
         itemOk.setObservacao(campoObs.getText().toString());
-        itemOk.setCategoria(campoCategoria.getText().toString());
+        itemOk.setCategoria(campoCategoria.getSelectedItemPosition());
         itemOk.setComprado(false);
-
         itemOk.setDataCompra(Calendar.getInstance().getTimeInMillis());
 
         if (!campoPreco.getText().toString().isEmpty()) {
@@ -65,16 +89,18 @@ public class FormularioHelper {
     private void getActivityViews() {
         campoNome = activity.findViewById(R.id.activity_formulario_nome);
         campoPreco = activity.findViewById(R.id.activity_formulario_preco);
-        campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
-
+        campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
+
+        campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
     }
 
     public boolean checkingNameEmpty() {
         if (campoNome.getText().toString().isEmpty()){
             new AlertDialog.Builder(activity)
                     .setTitle(R.string.alert_default)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .setMessage(R.string.activity_formulario_alert_empty_name)
                     .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -99,6 +125,7 @@ public class FormularioHelper {
 
                 new AlertDialog.Builder(activity)
                         .setTitle(R.string.alert_default)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .setMessage("Item já existente.")
                         .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -115,10 +142,10 @@ public class FormularioHelper {
 
     public void clearFields() {
         campoNome.setText(null);
-        campoNome.setFocusable(true);
         campoPreco.setText("0");
         campoObs.setText(null);
-        campoCategoria.setText("Categoria");
+        campoCategoria.setSelection(0);
+        campoNome.setFocusable(true);
     }
 
     public void inflateBtnVoltar() {

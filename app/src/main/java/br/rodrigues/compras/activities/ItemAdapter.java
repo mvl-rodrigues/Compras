@@ -29,6 +29,14 @@ import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 
+import static br.rodrigues.compras.util.ConstantsApp.ACOUGUE;
+import static br.rodrigues.compras.util.ConstantsApp.BEBIDAS;
+import static br.rodrigues.compras.util.ConstantsApp.CATEGORIAS;
+import static br.rodrigues.compras.util.ConstantsApp.GRAOS;
+import static br.rodrigues.compras.util.ConstantsApp.HIGIENE;
+import static br.rodrigues.compras.util.ConstantsApp.HORTIFRUTI;
+import static br.rodrigues.compras.util.ConstantsApp.MASSAS;
+import static br.rodrigues.compras.util.ConstantsApp.OUTROS;
 import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
 public class ItemAdapter extends BaseAdapter {
@@ -68,26 +76,25 @@ public class ItemAdapter extends BaseAdapter {
     private void vincula(View view, Item item) {
 
         TextView nome = view.findViewById(R.id.item_campo_nome);
+        nome.setText(item.getNome());
+
         TextView preco = view.findViewById(R.id.item_campo_preco);
+        preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
         TextView precoSimbulo = view.findViewById(R.id.tv_preco_simbulo);
+
         TextView categoria = view.findViewById(R.id.item_campo_categoria);
-        ConstraintLayout itemBackground = view.findViewById(R.id.item_background);
+        categoria.setText(CATEGORIAS.get(item.getCategoria()));
+
+        TextView dataComprado = view.findViewById(R.id.item_last_time);
+        dataComprado.setText(formatDate(item.getDataCompra()));
+
         ImageButton btnEditar = view.findViewById(R.id.item_btn_editar);
         setupBtnEditar(btnEditar, item);
 
-        TextView dataComprado = view.findViewById(R.id.item_last_time);
+        ImageView iconItemImage = view.findViewById(R.id.item_image);
+        setIconByCategoria(iconItemImage, CATEGORIAS.get(item.getCategoria()));
 
-        /**
-         * implementando
-         */
-
-        ImageView iconImage = view.findViewById(R.id.item_image);
-
-        nome.setText(item.getNome());
-        preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
-        categoria.setText(item.getCategoria());
-
-        dataComprado.setText(formatDate(item.getDataCompra()));
+        ConstraintLayout itemBackground = view.findViewById(R.id.item_background);
 
         if (item.getComprado()){
             itemBackground.setBackgroundColor(Color.LTGRAY);
@@ -102,6 +109,34 @@ public class ItemAdapter extends BaseAdapter {
 
             categoria.setTextColor(Color.GRAY);
 //            nome.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+    }
+
+    private void setIconByCategoria(ImageView iconItemImage, String categoria) {
+
+        switch (categoria){
+            case OUTROS:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_outros);
+                break;
+            case ACOUGUE:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_acougue);
+                break;
+            case HORTIFRUTI:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_hortifruti);
+                break;
+            case BEBIDAS:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_bebidas);
+                break;
+            case MASSAS:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_massa);
+                break;
+            case GRAOS:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_graos);
+                break;
+            case HIGIENE:
+                iconItemImage.setImageResource(R.mipmap.ic__item_image_higiene);
+                break;
         }
 
     }

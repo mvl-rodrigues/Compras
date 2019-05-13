@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BancoSQLite extends SQLiteOpenHelper {
 
     private static final String DATA_BASE = "Compras";
-    private static final int VERSION = 4;
+    private static final int VERSION = 6;
     private static final String TABLE = "Itens";
 
     public BancoSQLite(Context context) {
@@ -21,7 +21,7 @@ public class BancoSQLite extends SQLiteOpenHelper {
                 "nome TEXT NOT NULL, " +
                 "preco REAL, " +
                 "observacao TEXT, " +
-                "categoria TEXT, " +
+                "categoria INTEGER, " +
                 "data_compra DATE, " +
                 "caminho_imagem TEXT, " +
                 "comprado BOOLEAN);";

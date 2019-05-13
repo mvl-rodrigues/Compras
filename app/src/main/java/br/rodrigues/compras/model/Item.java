@@ -1,7 +1,6 @@
 package br.rodrigues.compras.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Item implements Serializable {
 
@@ -9,9 +8,8 @@ public class Item implements Serializable {
     private String nome;
     private Double preco;
     private String observacao;
-    private String categoria;
+    private int categoria;
     private Boolean comprado;
-
     private Long dataCompra;
 
     private String caminhoImagem;
@@ -64,11 +62,11 @@ public class Item implements Serializable {
         this.preco = preco;
     }
 
-    public String getCategoria() {
+    public int getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(int categoria) {
         this.categoria = categoria;
     }
 
