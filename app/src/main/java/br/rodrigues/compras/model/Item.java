@@ -12,10 +12,8 @@ public class Item implements Serializable {
     private int categoria;
     private Boolean comprado;
     private Long dataCompra;
-
     private int quantidade;
-
-    private String caminhoImagem;
+    private int caminhoImagem;
 
     public Double getPrecoTotal() {
         return precoTotal;
@@ -41,11 +39,11 @@ public class Item implements Serializable {
         this.dataCompra = dataCompra;
     }
 
-    public String getCaminhoImagem() {
+    public int getCaminhoImagem() {
         return caminhoImagem;
     }
 
-    public void setCaminhoImagem(String caminhoImagem) {
+    public void setCaminhoImagem(int caminhoImagem) {
         this.caminhoImagem = caminhoImagem;
     }
 
@@ -97,9 +95,4 @@ public class Item implements Serializable {
         this.comprado = comprado;
     }
 
-    @Override
-    public String toString() {
-        String show = getNome() + " - R$" + getPreco().toString() + " - " + getComprado();
-        return show;
-    }
 }

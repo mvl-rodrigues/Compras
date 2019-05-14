@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -20,8 +19,15 @@ import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 import br.rodrigues.compras.util.MaskEditUtil;
 
-
-import static br.rodrigues.compras.util.ConstantsApp.*;
+import static br.rodrigues.compras.util.ConstantsApp.ACOUGUE;
+import static br.rodrigues.compras.util.ConstantsApp.BEBIDAS;
+import static br.rodrigues.compras.util.ConstantsApp.CATEGORIAS;
+import static br.rodrigues.compras.util.ConstantsApp.GRAOS;
+import static br.rodrigues.compras.util.ConstantsApp.HIGIENE;
+import static br.rodrigues.compras.util.ConstantsApp.HORTIFRUTI;
+import static br.rodrigues.compras.util.ConstantsApp.MASSAS;
+import static br.rodrigues.compras.util.ConstantsApp.OUTROS;
+import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
 public class FormularioHelper {
 
@@ -79,6 +85,8 @@ public class FormularioHelper {
         itemOk.setComprado(false);
         itemOk.setDataCompra(Calendar.getInstance().getTimeInMillis());
 
+        itemOk.setCaminhoImagem(setIconByCategoria(CATEGORIAS.get(campoCategoria.getSelectedItemPosition())));
+
         if (!campoPreco.getText().toString().isEmpty()) {
             itemOk.setPreco(Double.valueOf(campoPreco.getText().toString().replace(",",".")));
         } else {
@@ -94,6 +102,33 @@ public class FormularioHelper {
         itemOk.setPrecoTotal(itemOk.getPreco()*itemOk.getQuantidade());
 
         return itemOk;
+    }
+
+    private int setIconByCategoria(String categoria) {
+
+        switch (categoria){
+            case OUTROS:
+                return R.mipmap.ic__item_image_outros;
+
+            case ACOUGUE:
+                return R.mipmap.ic__item_image_acougue;
+
+            case HORTIFRUTI:
+                return R.mipmap.ic__item_image_hortifruti;
+
+            case BEBIDAS:
+                return R.mipmap.ic__item_image_bebidas;
+
+            case MASSAS:
+                return R.mipmap.ic__item_image_massa;
+
+            case GRAOS:
+                return R.mipmap.ic__item_image_graos;
+
+            case HIGIENE:
+                return R.mipmap.ic__item_image_higiene;
+        }
+        return 0;
     }
 
     private void getActivityViews() {

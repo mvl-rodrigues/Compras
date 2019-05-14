@@ -73,6 +73,7 @@ public class ItemDAO {
             item.setObservacao(ponteiro.getString(ponteiro.getColumnIndex("observacao")));
             item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
             item.setQuantidade(ponteiro.getInt(ponteiro.getColumnIndex("quantidade")));
+            item.setCaminhoImagem(ponteiro.getInt(ponteiro.getColumnIndex("caminho_imagem")));
 
             itens.add(item);
         }
@@ -93,6 +94,7 @@ public class ItemDAO {
         dados.put("observacao", item.getObservacao());
         dados.put("comprado", String.valueOf(item.getComprado()));
         dados.put("quantidade", item.getQuantidade());
+        dados.put("caminho_imagem", item.getCaminhoImagem());
 
         return dados;
     }

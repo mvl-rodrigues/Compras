@@ -25,14 +25,7 @@ import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
 
-import static br.rodrigues.compras.util.ConstantsApp.ACOUGUE;
-import static br.rodrigues.compras.util.ConstantsApp.BEBIDAS;
 import static br.rodrigues.compras.util.ConstantsApp.CATEGORIAS;
-import static br.rodrigues.compras.util.ConstantsApp.GRAOS;
-import static br.rodrigues.compras.util.ConstantsApp.HIGIENE;
-import static br.rodrigues.compras.util.ConstantsApp.HORTIFRUTI;
-import static br.rodrigues.compras.util.ConstantsApp.MASSAS;
-import static br.rodrigues.compras.util.ConstantsApp.OUTROS;
 
 public class ItemAdapter extends BaseAdapter {
 
@@ -95,7 +88,7 @@ public class ItemAdapter extends BaseAdapter {
         setupBtnEditar(btnEditar, item);
 
         ImageView iconItemImage = view.findViewById(R.id.item_image);
-        setIconByCategoria(iconItemImage, CATEGORIAS.get(item.getCategoria()));
+        iconItemImage.setImageResource(item.getCaminhoImagem());
 
         ConstraintLayout itemBackground = view.findViewById(R.id.item_background);
 
@@ -120,34 +113,6 @@ public class ItemAdapter extends BaseAdapter {
 
             categoria.setTextColor(Color.GRAY);
 //            nome.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }
-
-    }
-
-    private void setIconByCategoria(ImageView iconItemImage, String categoria) {
-
-        switch (categoria){
-            case OUTROS:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_outros);
-                break;
-            case ACOUGUE:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_acougue);
-                break;
-            case HORTIFRUTI:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_hortifruti);
-                break;
-            case BEBIDAS:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_bebidas);
-                break;
-            case MASSAS:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_massa);
-                break;
-            case GRAOS:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_graos);
-                break;
-            case HIGIENE:
-                iconItemImage.setImageResource(R.mipmap.ic__item_image_higiene);
-                break;
         }
 
     }
