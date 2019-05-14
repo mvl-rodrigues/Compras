@@ -1,22 +1,15 @@
 package br.rodrigues.compras.activities;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import br.rodrigues.compras.R;
-import br.rodrigues.compras.dao.ItemDAO;
-import br.rodrigues.compras.model.Item;
 
 import static br.rodrigues.compras.util.ConstantsApp.ACOUGUE;
 import static br.rodrigues.compras.util.ConstantsApp.BEBIDAS;
@@ -143,7 +136,6 @@ public class ListaItensActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         helper.updatedListItems();
-        helper.totalCalculation();
         helper.subtotalCalculation();
     }
 }

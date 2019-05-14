@@ -33,6 +33,7 @@ public class FormularioHelper {
     private Item itemOk;
 
     private final List<String> Categorias = CATEGORIAS;
+    private EditText campoQuantidade;
 
     public FormularioHelper (FormularioActivity context) {
         activity = context;
@@ -64,6 +65,7 @@ public class FormularioHelper {
     public void fillItem (Item item){
         campoNome.setText(item.getNome());
         campoPreco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
+        campoQuantidade.setText(String.valueOf(item.getQuantidade()));
         campoObs.setText(item.getObservacao());
         campoCategoria.setSelection(item.getCategoria());
         itemOk = item;
@@ -83,12 +85,21 @@ public class FormularioHelper {
             itemOk.setPreco(0.0);
         }
 
+        if (!campoQuantidade.getText().toString().isEmpty()) {
+            itemOk.setQuantidade(Integer.valueOf(campoQuantidade.getText().toString()));
+        } else {
+            itemOk.setQuantidade(0);
+        }
+
+        itemOk.setPrecoTotal(itemOk.getPreco()*itemOk.getQuantidade());
+
         return itemOk;
     }
 
     private void getActivityViews() {
         campoNome = activity.findViewById(R.id.activity_formulario_nome);
         campoPreco = activity.findViewById(R.id.activity_formulario_preco);
+        campoQuantidade = activity.findViewById(R.id.activity_formulario_quantidade);
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
         campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
@@ -143,6 +154,7 @@ public class FormularioHelper {
     public void clearFields() {
         campoNome.setText(null);
         campoPreco.setText("0");
+        campoQuantidade.setText(null);
         campoObs.setText(null);
         campoCategoria.setSelection(0);
         campoNome.setFocusable(true);

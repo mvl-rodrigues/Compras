@@ -67,10 +67,12 @@ public class ItemDAO {
             item.setId(ponteiro.getLong(ponteiro.getColumnIndex("id")));
             item.setNome(ponteiro.getString(ponteiro.getColumnIndex("nome")));
             item.setPreco(ponteiro.getDouble(ponteiro.getColumnIndex("preco")));
+            item.setPrecoTotal(ponteiro.getDouble(ponteiro.getColumnIndex("preco_total")));
             item.setCategoria(ponteiro.getInt(ponteiro.getColumnIndex("categoria")));
             item.setDataCompra(ponteiro.getLong(ponteiro.getColumnIndex("data_compra")));
             item.setObservacao(ponteiro.getString(ponteiro.getColumnIndex("observacao")));
             item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
+            item.setQuantidade(ponteiro.getInt(ponteiro.getColumnIndex("quantidade")));
 
             itens.add(item);
         }
@@ -85,10 +87,12 @@ public class ItemDAO {
 
         dados.put("nome", item.getNome());
         dados.put("preco", item.getPreco());
+        dados.put("preco_total", item.getPrecoTotal());
         dados.put("categoria", item.getCategoria());
         dados.put("data_compra", item.getDataCompra());
         dados.put("observacao", item.getObservacao());
         dados.put("comprado", String.valueOf(item.getComprado()));
+        dados.put("quantidade", item.getQuantidade());
 
         return dados;
     }
@@ -136,8 +140,9 @@ public class ItemDAO {
                 "(id INTEGER PRIMARY KEY, " +
                 "nome TEXT NOT NULL, " +
                 "preco REAL, " +
+                "quantidade INTEGER, " +
                 "observacao TEXT, " +
-                "categoria TEXT, " +
+                "categoria INTEGER, " +
                 "data_compra DATE, " +
                 "caminho_imagem TEXT, " +
                 "comprado BOOLEAN);";

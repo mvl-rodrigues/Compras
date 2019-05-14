@@ -7,12 +7,31 @@ public class Item implements Serializable {
     private Long id;
     private String nome;
     private Double preco;
+    private Double precoTotal;
     private String observacao;
     private int categoria;
     private Boolean comprado;
     private Long dataCompra;
 
+    private int quantidade;
+
     private String caminhoImagem;
+
+    public Double getPrecoTotal() {
+        return precoTotal;
+    }
+
+    public void setPrecoTotal(Double precoTotal) {
+        this.precoTotal = precoTotal;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 
     public Long getDataCompra() {
         return dataCompra;

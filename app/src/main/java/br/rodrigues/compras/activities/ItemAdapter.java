@@ -1,6 +1,5 @@
 package br.rodrigues.compras.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,18 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import br.rodrigues.compras.R;
@@ -37,7 +33,6 @@ import static br.rodrigues.compras.util.ConstantsApp.HIGIENE;
 import static br.rodrigues.compras.util.ConstantsApp.HORTIFRUTI;
 import static br.rodrigues.compras.util.ConstantsApp.MASSAS;
 import static br.rodrigues.compras.util.ConstantsApp.OUTROS;
-import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
 public class ItemAdapter extends BaseAdapter {
 
@@ -78,9 +73,17 @@ public class ItemAdapter extends BaseAdapter {
         TextView nome = view.findViewById(R.id.item_campo_nome);
         nome.setText(item.getNome());
 
+        TextView precoTotal = view.findViewById(R.id.item_campo_preco_total);
+        precoTotal.setText(new ListaItensHelper().formatarEmReais(item.getPrecoTotal()));
+        TextView precoTotalSimbulo = view.findViewById(R.id.item_preco_total_simbulo);
+
         TextView preco = view.findViewById(R.id.item_campo_preco);
         preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
-        TextView precoSimbulo = view.findViewById(R.id.tv_preco_simbulo);
+        TextView precoSimbulo = view.findViewById(R.id.item_preco_simbulo);
+
+        TextView quantidade = view.findViewById(R.id.item_campo_quantidade);
+        quantidade.setText(String.valueOf(item.getQuantidade()));
+        TextView simbuloMultiplica = view.findViewById(R.id.item_multiplica_simbulo);
 
         TextView categoria = view.findViewById(R.id.item_campo_categoria);
         categoria.setText(CATEGORIAS.get(item.getCategoria()));
@@ -98,6 +101,14 @@ public class ItemAdapter extends BaseAdapter {
 
         if (item.getComprado()){
             itemBackground.setBackgroundColor(Color.LTGRAY);
+
+            precoTotal.setTextColor(Color.GRAY);
+
+            precoTotalSimbulo.setTextColor(Color.GRAY);
+
+            quantidade.setTextColor(Color.GRAY);
+
+            simbuloMultiplica.setTextColor(Color.GRAY);
 
             dataComprado.setTextColor(Color.GRAY);
 
@@ -142,7 +153,7 @@ public class ItemAdapter extends BaseAdapter {
     }
 
     private String formatDate(Long date) {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
 

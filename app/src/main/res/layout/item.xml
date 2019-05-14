@@ -37,7 +37,7 @@
         tools:text="Nome do Item Comprado" />
 
     <TextView
-        android:id="@+id/tv_preco_simbulo"
+        android:id="@+id/item_preco_simbulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -46,21 +46,21 @@
         android:textStyle="bold"
         android:textColor="@color/colorCash"
         app:layout_constraintBottom_toBottomOf="@+id/item_campo_nome"
-        app:layout_constraintEnd_toStartOf="@+id/item_campo_preco"
+        app:layout_constraintEnd_toStartOf="@+id/item_campo_preco_total"
         app:layout_constraintTop_toTopOf="@+id/item_campo_nome"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/item_campo_preco"
+        android:id="@+id/item_campo_preco_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:textColor="@color/colorCash"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_preco_simbulo"
+        app:layout_constraintBottom_toBottomOf="@+id/item_preco_simbulo"
         app:layout_constraintEnd_toStartOf="@+id/item_btn_editar"
-        app:layout_constraintTop_toTopOf="@+id/tv_preco_simbulo"
+        app:layout_constraintTop_toTopOf="@+id/item_preco_simbulo"
         app:layout_constraintVertical_bias="0.0"
         tools:text="000,00" />
 
@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/item_campo_nome"
         app:layout_constraintTop_toBottomOf="@+id/item_campo_nome"
@@ -90,10 +90,13 @@
         android:id="@+id/item_last_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:text="01/02/2019"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/item_campo_categoria"
-        app:layout_constraintEnd_toEndOf="@+id/item_campo_preco" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_campo_categoria"
+        app:layout_constraintTop_toBottomOf="@+id/item_campo_categoria" />
 
     <ImageButton
         android:id="@+id/item_btn_editar"
@@ -104,5 +107,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_campo_preco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="110,00"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/item_campo_preco_total"
+        app:layout_constraintTop_toBottomOf="@+id/item_campo_preco_total" />
+
+    <TextView
+        android:id="@+id/item_preco_total_simbulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="R$"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_campo_preco"
+        app:layout_constraintEnd_toStartOf="@+id/item_campo_preco" />
+
+    <TextView
+        android:id="@+id/item_multiplica_simbulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="x"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_preco_total_simbulo"
+        app:layout_constraintEnd_toStartOf="@+id/item_preco_total_simbulo" />
+
+    <TextView
+        android:id="@+id/item_campo_quantidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_multiplica_simbulo"
+        app:layout_constraintEnd_toStartOf="@+id/item_multiplica_simbulo" />
 
 </android.support.constraint.ConstraintLayout>

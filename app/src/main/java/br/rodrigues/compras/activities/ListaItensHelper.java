@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ public class ListaItensHelper {
     private FloatingActionButton fab_add;
     private List<Item> items;
     private ItemAdapter adapter;
+    private ImageButton btn_valor;
+    private List<Item> itemsToCalc;
 
     public ListaItensHelper (ListaItensActivity context){
         activity = context;
@@ -38,6 +41,7 @@ public class ListaItensHelper {
         setupFabAdd();
         setupShortClickListener();
         setupListaDeItens();
+        setupBtnValorTotal();
     }
 
     public ListaItensHelper (){
@@ -49,11 +53,24 @@ public class ListaItensHelper {
      *************************************************/
 
     private void getViews() {
-        valorLista = activity.findViewById(R.id.activity_lista_itens_subtotal);
+        valorLista = activity.findViewById(R.id.activity_lista_itens_total);
         listaItems = activity.findViewById(R.id.activity_lista_itens_listview);
         fab_add = activity.findViewById(R.id.activity_lista_itens_fab_add);
+        btn_valor = activity.findViewById(R.id.activity_lista_items_btn_valor_total);
+    }
 
-
+    private void setupBtnValorTotal() {
+        btn_valor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(activity)
+                        .setIcon(R.drawable.ic_lista_itens_money_2)
+                        .setTitle("O valor total da lista é R$" + formatarEmReais(totalCalculation()))
+                        .setNeutralButton("Ok",null)
+                        .setCancelable(true)
+                        .create().show();
+            }
+        });
     }
 
     private void setupListaDeItens() {
@@ -108,19 +125,21 @@ public class ListaItensHelper {
 
     public void subtotalCalculation() {
         Double custoSubtotal = 0.0;
-        for (Item item: items){
+        itemsToCalc = dao.getAllItems("Todos");
+        for (Item item: itemsToCalc){
             if (!item.getComprado()){
-                custoSubtotal = custoSubtotal + item.getPreco();
+                custoSubtotal = custoSubtotal + item.getPrecoTotal();
             }
         }
         valorLista.setText(formatarEmReais(custoSubtotal));
     }
 
-    public void totalCalculation() {
+    public double totalCalculation() {
         Double custoTotal = 0.0;
-        for (Item item: items){
-            custoTotal = custoTotal + item.getPreco();
+        for (Item item: itemsToCalc){
+            custoTotal = custoTotal + item.getPrecoTotal();
         }
+        return custoTotal;
     }
 
     public void updatedListItems() {
