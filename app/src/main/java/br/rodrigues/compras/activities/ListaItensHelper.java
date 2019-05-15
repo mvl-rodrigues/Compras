@@ -179,4 +179,15 @@ public class ListaItensHelper {
         adapter.update(items);
 
     }
+
+    public void searchInList(String nomeProduto) {
+        adapter.clear();
+        listaItems.invalidateViews();
+        for (Item item: items){
+            if (item.getNome().toLowerCase().contains(nomeProduto.toLowerCase())) {
+                adapter.add(item);
+                listaItems.invalidateViews();
+            }
+        }
+    }
 }

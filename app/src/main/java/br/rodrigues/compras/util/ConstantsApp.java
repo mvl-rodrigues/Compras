@@ -1,5 +1,8 @@
 package br.rodrigues.compras.util;
 
+import android.util.ArraySet;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

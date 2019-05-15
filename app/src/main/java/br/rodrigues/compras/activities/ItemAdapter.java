@@ -190,4 +190,14 @@ public class ItemAdapter extends BaseAdapter {
     public void simpleUpdate(){
         notifyDataSetChanged();
     }
+
+    public void clear() {
+        this.items.clear();
+        notifyDataSetChanged();
+    }
+
+    public void add(Item item) {
+        items.add(item);
+        notifyDataSetChanged();
+    }
 }

@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import br.rodrigues.compras.R;
@@ -39,6 +40,23 @@ public class ListaItensActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.activity_lista_itens_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.activity_lista_itens_menu_search).getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String nomeProduto) {
+
+                helper.searchInList(nomeProduto);
+
+                return false;
+            }
+        });
 
         return true;
     }
@@ -120,12 +138,6 @@ public class ListaItensActivity extends AppCompatActivity {
                     }
                 });
 
-                break;
-            case R.id.activity_lista_itens_menu_search:
-
-                /**
-                 * searching item...
-                 */
                 break;
         }
 
