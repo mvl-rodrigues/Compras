@@ -149,5 +149,6 @@ public class ListaItensActivity extends AppCompatActivity {
         super.onResume();
         helper.updatedListItems();
         helper.subtotalCalculation();
+        helper.checkLastItems();
     }
 }

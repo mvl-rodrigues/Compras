@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.rodrigues.compras.R;
@@ -187,10 +189,6 @@ public class ItemAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void simpleUpdate(){
-        notifyDataSetChanged();
-    }
-
     public void clear() {
         this.items.clear();
         notifyDataSetChanged();
@@ -198,6 +196,18 @@ public class ItemAdapter extends BaseAdapter {
 
     public void add(Item item) {
         items.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void toFristPosition(int position, Item item){
+        items.remove(position);
+        items.add(0, item);
+        notifyDataSetChanged();
+    }
+
+    public void toLastPosition (int position, Item item){
+        items.remove(position);
+        items.add(items.size(), item);
         notifyDataSetChanged();
     }
 }

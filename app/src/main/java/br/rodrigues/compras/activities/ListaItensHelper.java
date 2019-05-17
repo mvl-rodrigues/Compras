@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -101,12 +102,18 @@ public class ListaItensHelper {
                     itemToComprado.setComprado(false);
                     dao.update(itemToComprado);
 
+                    adapter.toFristPosition(position, itemToComprado);
+
+//                    adapter.simpleUpdate();
+
                 } else {
                     itemToComprado.setComprado(true);
                     itemToComprado.setDataCompra(new Date().getTime());
+
+                    adapter.toLastPosition(position, itemToComprado);
+
                     dao.update(itemToComprado);
                 }
-                adapter.simpleUpdate();
                 subtotalCalculation();
             }
         });
@@ -189,5 +196,14 @@ public class ListaItensHelper {
                 listaItems.invalidateViews();
             }
         }
+    }
+
+    /**
+     *
+     */
+    public void checkLastItems() {
+
+        adapter.update(dao.orderByComprado());
+
     }
 }

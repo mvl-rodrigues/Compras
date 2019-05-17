@@ -29,6 +29,39 @@ public class ItemDAO {
         conexao = new BancoSQLite(context);
     }
 
+    public List<Item> orderByComprado() {
+
+        String sql = "SELECT * FROM "+TABLE+" ORDER BY comprado ASC";
+
+        db = conexao.getReadableDatabase();
+
+        Cursor ponteiro = db.rawQuery(sql, null);
+
+        List<Item> itens = new ArrayList<>();
+
+        while (ponteiro.moveToNext()) {
+            Item item = new Item();
+
+            item.setId(ponteiro.getLong(ponteiro.getColumnIndex("id")));
+            item.setNome(ponteiro.getString(ponteiro.getColumnIndex("nome")));
+            item.setPreco(ponteiro.getDouble(ponteiro.getColumnIndex("preco")));
+            item.setPrecoTotal(ponteiro.getDouble(ponteiro.getColumnIndex("preco_total")));
+            item.setCategoria(ponteiro.getInt(ponteiro.getColumnIndex("categoria")));
+            item.setDataCompra(ponteiro.getLong(ponteiro.getColumnIndex("data_compra")));
+            item.setObservacao(ponteiro.getString(ponteiro.getColumnIndex("observacao")));
+            item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
+            item.setQuantidade(ponteiro.getInt(ponteiro.getColumnIndex("quantidade")));
+            item.setCaminhoImagem(ponteiro.getInt(ponteiro.getColumnIndex("caminho_imagem")));
+
+            itens.add(item);
+        }
+        ponteiro.close();
+
+        db.close();
+
+        return itens;
+    }
+
     public List<Item> getAllItems(String CATEGORIA) {
 
         String sql = "SELECT * FROM " + TABLE;
@@ -78,6 +111,7 @@ public class ItemDAO {
             itens.add(item);
         }
         ponteiro.close();
+
         db.close();
 
         return itens;
