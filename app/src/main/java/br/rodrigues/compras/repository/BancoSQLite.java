@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BancoSQLite extends SQLiteOpenHelper {
 
     private static final String DATA_BASE = "Compras";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final String TABLE = "Itens";
 
     public BancoSQLite(Context context) {
@@ -32,18 +32,16 @@ public class BancoSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        String sql = "DROP TABLE IF EXISTS " + TABLE;
-//        db.execSQL(sql);
-//        onCreate(db);
-
-        String sql = "";
-
-        switch (oldVersion){
-            case 1:
-//                sql = "ALTER TABLE " + TABLE + " ADD COLUMN quantidade;";
-//                db.execSQL(sql);
-            case 2:
-        }
+        String sql = "DROP TABLE IF EXISTS " + TABLE;
+        db.execSQL(sql);
+        onCreate(db);
+//        String sql = "";
+//        switch (oldVersion){
+//            case 1:
+////                sql = "ALTER TABLE " + TABLE + " ADD COLUMN quantidade;";
+////                db.execSQL(sql);
+//            case 2:
+//        }
     }
 
 //    @Override

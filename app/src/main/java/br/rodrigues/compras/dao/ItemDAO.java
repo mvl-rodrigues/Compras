@@ -138,18 +138,7 @@ public class ItemDAO {
 
         db.execSQL(sql);
 
-        sql = "CREATE TABLE " + TABLE +
-                "(id INTEGER PRIMARY KEY, " +
-                "nome TEXT NOT NULL, " +
-                "preco REAL, " +
-                "quantidade INTEGER, " +
-                "observacao TEXT, " +
-                "categoria INTEGER, " +
-                "data_compra DATE, " +
-                "caminho_imagem TEXT, " +
-                "comprado BOOLEAN);";
-
-        db.execSQL(sql);
+        conexao.onCreate(db);
 
         db.close();
     }
