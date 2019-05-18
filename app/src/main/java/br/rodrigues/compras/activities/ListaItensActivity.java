@@ -54,6 +54,10 @@ public class ListaItensActivity extends AppCompatActivity {
 
                 helper.searchInList(nomeProduto);
 
+                if (nomeProduto.equals("")){
+                    helper.updatedListItems();
+                }
+
                 return false;
             }
         });
@@ -68,7 +72,6 @@ public class ListaItensActivity extends AppCompatActivity {
             case R.id.activity_lista_itens_menu_renew:
 
                 helper.cleanList();
-                helper.updatedListItems();
                 helper.subtotalCalculation();
                 Toast.makeText(this, "Renovada", Toast.LENGTH_SHORT).show();
 
@@ -149,6 +152,5 @@ public class ListaItensActivity extends AppCompatActivity {
         super.onResume();
         helper.updatedListItems();
         helper.subtotalCalculation();
-        helper.checkLastItems();
     }
 }

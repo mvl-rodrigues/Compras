@@ -29,63 +29,30 @@ public class ItemDAO {
         conexao = new BancoSQLite(context);
     }
 
-    public List<Item> orderByComprado() {
-
-        String sql = "SELECT * FROM "+TABLE+" ORDER BY comprado ASC";
-
-        db = conexao.getReadableDatabase();
-
-        Cursor ponteiro = db.rawQuery(sql, null);
-
-        List<Item> itens = new ArrayList<>();
-
-        while (ponteiro.moveToNext()) {
-            Item item = new Item();
-
-            item.setId(ponteiro.getLong(ponteiro.getColumnIndex("id")));
-            item.setNome(ponteiro.getString(ponteiro.getColumnIndex("nome")));
-            item.setPreco(ponteiro.getDouble(ponteiro.getColumnIndex("preco")));
-            item.setPrecoTotal(ponteiro.getDouble(ponteiro.getColumnIndex("preco_total")));
-            item.setCategoria(ponteiro.getInt(ponteiro.getColumnIndex("categoria")));
-            item.setDataCompra(ponteiro.getLong(ponteiro.getColumnIndex("data_compra")));
-            item.setObservacao(ponteiro.getString(ponteiro.getColumnIndex("observacao")));
-            item.setComprado(Boolean.parseBoolean(ponteiro.getString(ponteiro.getColumnIndex("comprado"))));
-            item.setQuantidade(ponteiro.getInt(ponteiro.getColumnIndex("quantidade")));
-            item.setCaminhoImagem(ponteiro.getInt(ponteiro.getColumnIndex("caminho_imagem")));
-
-            itens.add(item);
-        }
-        ponteiro.close();
-
-        db.close();
-
-        return itens;
-    }
-
     public List<Item> getAllItems(String CATEGORIA) {
 
-        String sql = "SELECT * FROM " + TABLE;
+        String sql = "SELECT * FROM " + TABLE + " ORDER BY comprado ASC";
 
         if (CATEGORIA.equals(OUTROS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 0;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 0 + " ORDER BY comprado ASC";
         }
         else if (CATEGORIA.equals(ACOUGUE)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 1;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 1 + " ORDER BY comprado ASC";
         }
         else if (CATEGORIA.equals(HORTIFRUTI)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 2;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 2 + " ORDER BY comprado ASC";
         }
         else if (CATEGORIA.equals(GRAOS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 3;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 3 + " ORDER BY comprado ASC";
         }
         else if (CATEGORIA.equals(MASSAS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 4;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 4 + " ORDER BY comprado ASC";
         }
         else if (CATEGORIA.equals(BEBIDAS)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 5;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 5 + " ORDER BY comprado ASC";
         }
         else if (CATEGORIA.equals(HIGIENE)) {
-            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 6;
+            sql = "SELECT * FROM " + TABLE + " WHERE categoria = " + 6 + " ORDER BY comprado ASC";
         }
 
         db = conexao.getReadableDatabase();
