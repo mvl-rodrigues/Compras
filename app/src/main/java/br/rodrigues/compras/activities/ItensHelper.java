@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
@@ -23,10 +21,10 @@ import br.rodrigues.compras.model.Item;
 
 import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
-public class ListaItensHelper {
+public class ItensHelper {
 
     private ItemDAO dao;
-    private ListaItensActivity activity;
+    private ItensActivity activity;
     private TextView valorLista;
     private ListView listaItems;
     private FloatingActionButton fab_add;
@@ -35,7 +33,7 @@ public class ListaItensHelper {
     private ImageButton btn_valor;
     private List<Item> itemsToCalc;
 
-    public ListaItensHelper (ListaItensActivity context){
+    public ItensHelper(ItensActivity context){
         activity = context;
         dao = new ItemDAO(activity);
         getViews();
@@ -45,7 +43,7 @@ public class ListaItensHelper {
         setupBtnValorTotal();
     }
 
-    public ListaItensHelper (){
+    public ItensHelper(){
 
     }
 
@@ -66,7 +64,7 @@ public class ListaItensHelper {
             public void onClick(View v) {
                 new AlertDialog.Builder(activity)
                         .setIcon(R.drawable.ic_lista_itens_money_2)
-                        .setTitle("O valor total da lista é R$" + formatarEmReais(totalCalculation()))
+                        .setTitle("O valor total da lista é R$" + currentMonetaryFormat(totalCalculation()))
                         .setNeutralButton("Ok",null)
                         .setCancelable(true)
                         .create().show();
@@ -123,11 +121,10 @@ public class ListaItensHelper {
      * METHODS TO HELP ACTIVITY
      *************************************************/
 
-    public String formatarEmReais(double valor) {
-        Locale REAL_BR = new Locale("pt", "BR");
-        NumberFormat valorEmReais = NumberFormat.getInstance(REAL_BR);
-        valorEmReais.setMinimumFractionDigits(2);
-        return valorEmReais.format(valor);
+    public String currentMonetaryFormat(double valor) {
+        NumberFormat currentMonetary = NumberFormat.getCurrencyInstance();
+        currentMonetary.setMinimumFractionDigits(2);
+        return currentMonetary.format(valor);
     }
 
     public void subtotalCalculation() {
@@ -138,7 +135,7 @@ public class ListaItensHelper {
                 custoSubtotal = custoSubtotal + item.getPrecoTotal();
             }
         }
-        valorLista.setText(formatarEmReais(custoSubtotal));
+        valorLista.setText(currentMonetaryFormat(custoSubtotal));
     }
 
     public double totalCalculation() {
@@ -177,6 +174,7 @@ public class ListaItensHelper {
                         dao.deleteAll();
                         Toast.makeText(activity, "Lista deletada", Toast.LENGTH_SHORT).show();
                         updatedListItems();
+                        subtotalCalculation();
                     }
                 }).create().show();
     }

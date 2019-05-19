@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.FormularioActivity"></activity>
-        <activity android:name=".activities.ListaItensActivity">
+        <activity android:name=".activities.ListasActivity">
+
+        </activity>
+        <activity android:name=".activities.FormularioActivity" />
+        <activity android:name=".activities.ItensActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

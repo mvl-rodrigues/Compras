@@ -21,17 +21,17 @@ import static br.rodrigues.compras.util.ConstantsApp.MASSAS;
 import static br.rodrigues.compras.util.ConstantsApp.OUTROS;
 import static br.rodrigues.compras.util.ConstantsApp.TODOS;
 
-public class ListaItensActivity extends AppCompatActivity {
+public class ItensActivity extends AppCompatActivity {
 
     public static final String TITLE_APPBAR = "Lista";
-    private ListaItensHelper helper;
+    private ItensHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_itens);
+        setContentView(R.layout.activity_itens);
         setTitle(TITLE_APPBAR);
-        helper = new ListaItensHelper(this);
+        helper = new ItensHelper(this);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ListaItensActivity extends AppCompatActivity {
 
                 View menuFilter = findViewById(R.id.activity_lista_itens_menu_filter);
 
-                PopupMenu popup = new PopupMenu(ListaItensActivity.this, menuFilter);
+                PopupMenu popup = new PopupMenu(ItensActivity.this, menuFilter);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.item_categorias, popup.getMenu());
                 popup.show();
@@ -97,42 +97,42 @@ public class ListaItensActivity extends AppCompatActivity {
                         switch (item.getItemId()){
                             case R.id.item_categorias_todos:
                                 helper.filterByCategory(TODOS);
-                                Toast.makeText(ListaItensActivity.this, "Todos", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Todos", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_outros:
                                 helper.filterByCategory(OUTROS);
-                                Toast.makeText(ListaItensActivity.this, "Outros", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Outros", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_acougue:
                                 helper.filterByCategory(ACOUGUE);
-                                Toast.makeText(ListaItensActivity.this, "Açougue", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Açougue", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_bebidas:
                                 helper.filterByCategory(BEBIDAS);
-                                Toast.makeText(ListaItensActivity.this, "Bebidas", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Bebidas", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_graos:
                                 helper.filterByCategory(GRAOS);
-                                Toast.makeText(ListaItensActivity.this, "Grãos", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Grãos", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_higiene:
                                 helper.filterByCategory(HIGIENE);
-                                Toast.makeText(ListaItensActivity.this, "Higiene", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Higiene", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_hortifruti:
                                 helper.filterByCategory(HORTIFRUTI);
-                                Toast.makeText(ListaItensActivity.this, "Hortifruti", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Hortifruti", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.item_categorias_massa:
                                 helper.filterByCategory(MASSAS);
-                                Toast.makeText(ListaItensActivity.this, "Massas", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItensActivity.this, "Massas", Toast.LENGTH_SHORT).show();
                                 break;
 
                         }

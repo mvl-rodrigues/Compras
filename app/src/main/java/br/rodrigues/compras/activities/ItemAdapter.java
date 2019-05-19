@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.rodrigues.compras.R;
@@ -31,10 +29,10 @@ import static br.rodrigues.compras.util.ConstantsApp.CATEGORIAS;
 
 public class ItemAdapter extends BaseAdapter {
 
-    private ListaItensActivity context;
+    private ItensActivity context;
     private List<Item> items;
 
-    public ItemAdapter (ListaItensActivity context, List<Item> items){
+    public ItemAdapter (ItensActivity context, List<Item> items){
         this.context = context;
         this.items = items;
     }
@@ -69,12 +67,10 @@ public class ItemAdapter extends BaseAdapter {
         nome.setText(item.getNome());
 
         TextView precoTotal = view.findViewById(R.id.item_campo_preco_total);
-        precoTotal.setText(new ListaItensHelper().formatarEmReais(item.getPrecoTotal()));
-        TextView precoTotalSimbulo = view.findViewById(R.id.item_preco_total_simbulo);
+        precoTotal.setText(new ItensHelper().currentMonetaryFormat(item.getPrecoTotal()));
 
         TextView preco = view.findViewById(R.id.item_campo_preco);
-        preco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
-        TextView precoSimbulo = view.findViewById(R.id.item_preco_simbulo);
+        preco.setText(new ItensHelper().currentMonetaryFormat(item.getPreco()));
 
         TextView quantidade = view.findViewById(R.id.item_campo_quantidade);
         quantidade.setText(String.valueOf(item.getQuantidade()));
@@ -97,9 +93,9 @@ public class ItemAdapter extends BaseAdapter {
         if (item.getComprado()){
             itemBackground.setBackgroundColor(Color.LTGRAY);
 
-            precoTotal.setTextColor(Color.GRAY);
+            iconItemImage.setBackgroundColor(Color.LTGRAY);
 
-            precoTotalSimbulo.setTextColor(Color.GRAY);
+            precoTotal.setTextColor(Color.GRAY);
 
             quantidade.setTextColor(Color.GRAY);
 
@@ -110,8 +106,6 @@ public class ItemAdapter extends BaseAdapter {
             nome.setTextColor(Color.GRAY);
 
             preco.setTextColor(Color.GRAY);
-
-            precoSimbulo.setTextColor(Color.GRAY);
 
             categoria.setTextColor(Color.GRAY);
 //            nome.setPaintFlags(nome.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

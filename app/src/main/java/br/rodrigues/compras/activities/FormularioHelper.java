@@ -17,7 +17,6 @@ import java.util.List;
 import br.rodrigues.compras.R;
 import br.rodrigues.compras.dao.ItemDAO;
 import br.rodrigues.compras.model.Item;
-import br.rodrigues.compras.util.MaskEditUtil;
 
 import static br.rodrigues.compras.util.ConstantsApp.ACOUGUE;
 import static br.rodrigues.compras.util.ConstantsApp.BEBIDAS;
@@ -56,9 +55,7 @@ public class FormularioHelper {
         campoCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                /**
-                 * do something a day...
-                 */
+                //do something a day...
             }
 
             @Override
@@ -70,7 +67,7 @@ public class FormularioHelper {
 
     public void fillItem (Item item){
         campoNome.setText(item.getNome());
-        campoPreco.setText(new ListaItensHelper().formatarEmReais(item.getPreco()));
+        campoPreco.setText(String.valueOf(item.getPreco()));
         campoQuantidade.setText(String.valueOf(item.getQuantidade()));
         campoObs.setText(item.getObservacao());
         campoCategoria.setSelection(item.getCategoria());
@@ -88,7 +85,11 @@ public class FormularioHelper {
         itemOk.setCaminhoImagem(setIconByCategoria(CATEGORIAS.get(campoCategoria.getSelectedItemPosition())));
 
         if (!campoPreco.getText().toString().isEmpty()) {
-            itemOk.setPreco(Double.valueOf(campoPreco.getText().toString().replace(",",".")));
+            itemOk.setPreco(Double.parseDouble(campoPreco.getText().toString()
+                    .replace(",",".")
+                    .replace("£","")
+                    .replace("$",".")
+                    .replace("R$",".")));
         } else {
             itemOk.setPreco(0.0);
         }
@@ -96,7 +97,7 @@ public class FormularioHelper {
         if (!campoQuantidade.getText().toString().isEmpty()) {
             itemOk.setQuantidade(Integer.valueOf(campoQuantidade.getText().toString()));
         } else {
-            itemOk.setQuantidade(0);
+            itemOk.setQuantidade(1);
         }
 
         itemOk.setPrecoTotal(itemOk.getPreco()*itemOk.getQuantidade());
@@ -134,11 +135,12 @@ public class FormularioHelper {
     private void getActivityViews() {
         campoNome = activity.findViewById(R.id.activity_formulario_nome);
         campoPreco = activity.findViewById(R.id.activity_formulario_preco);
+
+//        campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
+
         campoQuantidade = activity.findViewById(R.id.activity_formulario_quantidade);
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
-        campoPreco.addTextChangedListener(MaskEditUtil.monetario(campoPreco));
         campoObs = activity.findViewById(R.id.activity_formulario_obs);
-
         campoCategoria = activity.findViewById(R.id.activity_formulario_categoria);
     }
 
